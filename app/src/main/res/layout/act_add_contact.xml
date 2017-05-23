@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="cn.odinaris.tacitchat.contacts.ContactAddFriendActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_search_contact"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="搜索联系人"
+        app:titleTextColor="@color/darkBlack"
+        android:background="@color/colorPrimary"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/et_contact_name"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="16sp"
+            android:hint="请输入联系人昵称"/>
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜索"
+            android:textColor="#fff"
+            android:background="@color/darkBlack"
+            android:layout_margin="16sp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="TacitChat"
+        app:titleTextColor="@color/darkBlack"
+        android:background="#fff"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include layout="@layout/item_new_request"
+                    android:id="@+id/item_new_request"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_contacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+        <!--<cn.odinaris.tacitchat.view.LetterView-->
+            <!--android:id="@+id/lv_letters"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true">-->
+        <!--</cn.odinaris.tacitchat.view.LetterView>-->
+    </RelativeLayout>
+</LinearLayout>

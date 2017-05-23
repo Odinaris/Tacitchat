@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="70sp"
+    android:background="#fff">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:orientation="horizontal"
+        android:gravity="center"
+
+        android:background="?android:attr/selectableItemBackground">
+        <cn.odinaris.tacitchat.view.RoundImageView
+            android:id="@+id/iv_contact_avatar"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/tv_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/darkBlack"
+            android:text=""
+            android:textSize="20sp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="8sp"/>
+    </LinearLayout>
+</LinearLayout>

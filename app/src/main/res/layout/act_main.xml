@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="cn.odinaris.tacitchat.main.MainActivity"
+    android:background="#f5f5f5">
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1"
+        android:orientation="vertical"/>
+
+    <com.ashokvarma.bottomnavigation.BottomNavigationBar
+        android:id="@+id/bnb_navigator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:bnbInactiveColor="@color/lightGray"
+        app:bnbMode="mode_fixed"
+        app:bnbBackgroundStyle="background_style_ripple"
+        app:bnbActiveColor="#ffffff"
+        app:bnbBackgroundColor="@color/darkBlack"/>
+
+</LinearLayout>
