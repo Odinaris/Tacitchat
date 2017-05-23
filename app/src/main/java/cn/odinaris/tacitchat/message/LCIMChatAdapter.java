@@ -17,7 +17,7 @@ import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemHolder;
 import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemImageHolder;
 import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemLocationHolder;
 import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemTextHolder;
-import cn.odinaris.tacitchat.message.viewholder.LCIMCommonViewHolder;
+import cn.odinaris.tacitchat.message.viewholder.BaseViewHolder;
 
 public class LCIMChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   private final int ITEM_LEFT = 100;
@@ -84,7 +84,7 @@ public class LCIMChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   }
 
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    ((LCIMCommonViewHolder)holder).bindData(this.messageList.get(position));
+    ((BaseViewHolder)holder).bindData(this.messageList.get(position));
     if(holder instanceof LCIMChatItemHolder) {
       ((LCIMChatItemHolder)holder).showTimeView(this.shouldShowTime(position));
       ((LCIMChatItemHolder)holder).showUserName(this.isShowUserName);

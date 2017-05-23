@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVCallback;
 import com.avos.avoscloud.AVException;
@@ -23,30 +22,25 @@ import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMReservedMessageType;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMMessagesQueryCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMSingleMessageQueryCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import cn.leancloud.chatkit.LCChatMessageInterface;
-import cn.leancloud.chatkit.R;
 import cn.leancloud.chatkit.cache.LCIMConversationItemCache;
 import cn.leancloud.chatkit.event.LCIMConversationItemLongClickEvent;
 import cn.leancloud.chatkit.utils.LCIMConstants;
 import cn.leancloud.chatkit.utils.LCIMConversationUtils;
 import cn.leancloud.chatkit.utils.LCIMLogUtils;
-import cn.leancloud.chatkit.viewholder.*;
+import cn.odinaris.tacitchat.message.ConversationActivity;
 import de.greenrobot.event.EventBus;
 
 /**
- * Created by wli on 15/10/8.
  * 会话 item 对应的 holder
  */
-public class LCIMConversationItemHolder extends LCIMCommonViewHolder {
+public class LCIMConversationItemHolder extends BaseViewHolder {
   ImageView avatarView;
   TextView unreadView;
   TextView messageView;
@@ -183,10 +177,7 @@ public class LCIMConversationItemHolder extends LCIMCommonViewHolder {
 
   private void onConversationItemClick(AVIMConversation conversation) {
     try {
-      Intent intent = new Intent();
-      intent.setPackage(this.getContext().getPackageName());
-      intent.setAction(LCIMConstants.CONVERSATION_ITEM_CLICK_ACTION);
-      intent.addCategory("android.intent.category.DEFAULT");
+      Intent intent = new Intent(getContext(), ConversationActivity.class);
       intent.putExtra(LCIMConstants.CONVERSATION_ID, conversation.getConversationId());
       this.getContext().startActivity(intent);
     } catch (ActivityNotFoundException var3) {

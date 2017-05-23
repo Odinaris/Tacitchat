@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import cn.leancloud.chatkit.utils.LCIMLogUtils;
-import cn.odinaris.tacitchat.message.viewholder.LCIMCommonViewHolder;
-import cn.odinaris.tacitchat.message.viewholder.LCIMCommonViewHolder.ViewHolderCreator;
+import cn.odinaris.tacitchat.message.viewholder.BaseViewHolder;
+import cn.odinaris.tacitchat.message.viewholder.BaseViewHolder.ViewHolderCreator;
 
-public class LCIMCommonListAdapter<T> extends RecyclerView.Adapter<LCIMCommonViewHolder> {
+public class LCIMCommonListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
     private static HashMap<String, ViewHolderCreator> creatorHashMap = new HashMap();
     private Class<?> vhClass;
     protected List<T> dataList = new ArrayList();
@@ -39,7 +39,7 @@ public class LCIMCommonListAdapter<T> extends RecyclerView.Adapter<LCIMCommonVie
         this.dataList.addAll(datas);
     }
 
-    public LCIMCommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(null == this.vhClass) {
             try {
                 throw new IllegalArgumentException("please use CommonListAdapter(Class<VH> vhClass)");
@@ -69,7 +69,7 @@ public class LCIMCommonListAdapter<T> extends RecyclerView.Adapter<LCIMCommonVie
         }
     }
 
-    public void onBindViewHolder(LCIMCommonViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
         if(position >= 0 && position < this.dataList.size()) {
             holder.bindData(this.dataList.get(position));
         }

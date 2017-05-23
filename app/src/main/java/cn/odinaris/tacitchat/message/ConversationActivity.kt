@@ -1,6 +1,7 @@
 package cn.odinaris.tacitchat.message
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -22,10 +23,12 @@ import cn.leancloud.chatkit.utils.LCIMConstants
 import cn.leancloud.chatkit.utils.LCIMConversationUtils
 import cn.leancloud.chatkit.utils.LCIMLogUtils
 import cn.odinaris.tacitchat.R
+import cn.odinaris.tacitchat.util.ConversationUtils
 import kotlinx.android.synthetic.main.act_conversation.*
 
-open class ConversationActivity : AppCompatActivity() {
-    protected var conversationFragment: LCIMConversationFragment = LCIMConversationFragment()
+class ConversationActivity : AppCompatActivity() {
+    val QUIT_GROUP_REQUEST = 200
+    var conversationFragment: LCIMConversationFragment = LCIMConversationFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,8 @@ open class ConversationActivity : AppCompatActivity() {
         this.conversationFragment = this.supportFragmentManager.findFragmentById(R.id.frag_conversation) as LCIMConversationFragment
         this.initByIntent(this.intent)
     }
+
+    override fun onResume() { super.onResume() }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -62,20 +67,6 @@ open class ConversationActivity : AppCompatActivity() {
         }
     }
 
-    protected fun initActionBar(title: String?) {
-        val actionBar = this.supportActionBar
-        if (null != actionBar) {
-            if (null != title) {
-                actionBar.title = title
-            }
-
-            actionBar.setDisplayUseLogoEnabled(false)
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            this.finishActivity(-1)
-        }
-
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (16908332 == item.itemId) {
             this.onBackPressed()
@@ -85,7 +76,7 @@ open class ConversationActivity : AppCompatActivity() {
         }
     }
 
-    protected open fun updateConversation(conversation: AVIMConversation?) {
+    fun updateConversation(conversation: AVIMConversation?) {
         if (null != conversation) {
             this.conversationFragment.setConversation(conversation)
             LCIMConversationItemCache.getInstance().clearUnread(conversation.conversationId)
@@ -94,7 +85,8 @@ open class ConversationActivity : AppCompatActivity() {
                     if (null != e) {
                         LCIMLogUtils.logException(e)
                     } else {
-                        this@ConversationActivity.initActionBar(s)
+                        tb_conversation_username.title = s
+                        //this@ConversationActivity.initActionBar(s)
                     }
 
                 }
@@ -103,21 +95,34 @@ open class ConversationActivity : AppCompatActivity() {
 
     }
 
-    protected open fun getConversation(memberId: String) {
-        LCChatKit.getInstance().client.createConversation(Arrays.asList(*arrayOf(memberId)), "", null as Map<String, Any>?, false, true, object : AVIMConversationCreatedCallback() {
-            override fun done(avimConversation: AVIMConversation, e: AVIMException?) {
-                if (null != e) {
-                    this@ConversationActivity.showToast(e.message!!)
-                } else {
-                    this@ConversationActivity.updateConversation(avimConversation)
-                }
-
+    fun getConversation(memberId: String) {
+//        LCChatKit.getInstance().client.createConversation(Arrays.asList(*arrayOf(memberId)), "", null as Map<String, Any>?, false, true, object : AVIMConversationCreatedCallback() {
+//            override fun done(avimConversation: AVIMConversation, e: AVIMException?) {
+//                if (null != e) {
+//                    this@ConversationActivity.showToast(e.message!!)
+//                }
+//                else {
+//                    this@ConversationActivity.updateConversation(avimConversation)
+//                }
+//
+//            }
+//        })
+        ConversationUtils.createSingleConversation(memberId, object : AVIMConversationCreatedCallback() {
+            override fun done(avimConversation: AVIMConversation?, e: AVIMException?) {
+                updateConversation(avimConversation)
             }
+
         })
     }
 
     private fun showToast(content: String) {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if (resultCode == Activity.RESULT_OK) { when (requestCode) { QUIT_GROUP_REQUEST -> finish() } }
+    }
+
 }
 

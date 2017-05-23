@@ -29,7 +29,7 @@ class ConversationFragment : Fragment() {
 
     override fun onViewCreated(view: View,savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
-        srl_conversation.isEnabled = false
+        srl_conversation.isEnabled = true
         rv_conversation_list.layoutManager = LinearLayoutManager(context)
         rv_conversation_list.addItemDecoration(LCIMDividerItemDecoration(context))
         rv_conversation_list.adapter = itemAdapter

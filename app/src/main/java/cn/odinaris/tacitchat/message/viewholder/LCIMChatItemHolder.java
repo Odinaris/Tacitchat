@@ -32,7 +32,7 @@ import de.greenrobot.event.EventBus;
  * Created by wli on 15/9/17.
  * 聊天 item 的 holder
  */
-public class LCIMChatItemHolder extends LCIMCommonViewHolder {
+public class LCIMChatItemHolder extends BaseViewHolder {
   protected boolean isLeft;
   protected AVIMMessage message;
   protected ImageView avatarView;
