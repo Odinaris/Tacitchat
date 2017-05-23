@@ -86,13 +86,10 @@ class ConversationActivity : AppCompatActivity() {
                         LCIMLogUtils.logException(e)
                     } else {
                         tb_conversation_username.title = s
-                        //this@ConversationActivity.initActionBar(s)
                     }
-
                 }
             })
         }
-
     }
 
     fun getConversation(memberId: String) {

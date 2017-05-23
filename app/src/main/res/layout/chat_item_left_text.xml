@@ -4,6 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/lcim_chat_item_left_bg"
+    android:background="@drawable/chat_item_left_bg"
     android:gravity="center_vertical"
     android:textColor="@android:color/black"/>

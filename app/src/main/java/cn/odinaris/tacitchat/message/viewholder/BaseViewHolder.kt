@@ -32,4 +32,5 @@ abstract class BaseViewHolder<in T>(context: Context, root: ViewGroup, layoutRes
     interface ViewHolderCreator<out VH : BaseViewHolder<*>> {
         fun createByViewGroupAndType(var1: ViewGroup, var2: Int): VH
     }
+
 }

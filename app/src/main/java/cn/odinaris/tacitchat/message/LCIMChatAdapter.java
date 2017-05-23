@@ -12,11 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.leancloud.chatkit.LCChatKit;
-import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemAudioHolder;
-import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemHolder;
-import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemImageHolder;
-import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemLocationHolder;
-import cn.odinaris.tacitchat.message.viewholder.LCIMChatItemTextHolder;
+import cn.odinaris.tacitchat.message.viewholder.ChatItemAudioHolder;
+import cn.odinaris.tacitchat.message.viewholder.ChatItemHolder;
+import cn.odinaris.tacitchat.message.viewholder.ChatItemImageHolder;
+import cn.odinaris.tacitchat.message.viewholder.ChatItemLocationHolder;
+import cn.odinaris.tacitchat.message.viewholder.ChatItemTextHolder;
 import cn.odinaris.tacitchat.message.viewholder.BaseViewHolder;
 
 public class LCIMChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -62,32 +62,32 @@ public class LCIMChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     switch(viewType) {
       case 100:
       case 101:
-        return new LCIMChatItemTextHolder(parent.getContext(), parent, true);
+        return new ChatItemTextHolder(parent.getContext(), parent, true);
       case 102:
-        return new LCIMChatItemImageHolder(parent.getContext(), parent, true);
+        return new ChatItemImageHolder(parent.getContext(), parent, true);
       case 103:
-        return new LCIMChatItemAudioHolder(parent.getContext(), parent, true);
+        return new ChatItemAudioHolder(parent.getContext(), parent, true);
       case 104:
-        return new LCIMChatItemLocationHolder(parent.getContext(), parent, true);
+        return new ChatItemLocationHolder(parent.getContext(), parent, true);
       case 200:
       case 201:
-        return new LCIMChatItemTextHolder(parent.getContext(), parent, false);
+        return new ChatItemTextHolder(parent.getContext(), parent, false);
       case 202:
-        return new LCIMChatItemImageHolder(parent.getContext(), parent, false);
+        return new ChatItemImageHolder(parent.getContext(), parent, false);
       case 203:
-        return new LCIMChatItemAudioHolder(parent.getContext(), parent, false);
+        return new ChatItemAudioHolder(parent.getContext(), parent, false);
       case 204:
-        return new LCIMChatItemLocationHolder(parent.getContext(), parent, false);
+        return new ChatItemLocationHolder(parent.getContext(), parent, false);
       default:
-        return new LCIMChatItemTextHolder(parent.getContext(), parent, true);
+        return new ChatItemTextHolder(parent.getContext(), parent, true);
     }
   }
 
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     ((BaseViewHolder)holder).bindData(this.messageList.get(position));
-    if(holder instanceof LCIMChatItemHolder) {
-      ((LCIMChatItemHolder)holder).showTimeView(this.shouldShowTime(position));
-      ((LCIMChatItemHolder)holder).showUserName(this.isShowUserName);
+    if(holder instanceof ChatItemHolder) {
+      ((ChatItemHolder)holder).showTimeView(this.shouldShowTime(position));
+      ((ChatItemHolder)holder).showUserName(this.isShowUserName);
     }
 
   }

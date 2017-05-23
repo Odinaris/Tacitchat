@@ -5,6 +5,10 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
     defaultConfig {
         applicationId "cn.odinaris.tacitchat"
         minSdkVersion 21
@@ -25,6 +29,7 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     lintOptions { abortOnError false }
+
 }
 
 dependencies {

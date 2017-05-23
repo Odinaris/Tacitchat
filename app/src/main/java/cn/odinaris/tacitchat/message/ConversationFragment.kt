@@ -13,7 +13,7 @@ import cn.leancloud.chatkit.event.LCIMConversationItemLongClickEvent
 import cn.leancloud.chatkit.event.LCIMIMTypeMessageEvent
 import cn.leancloud.chatkit.event.LCIMOfflineMessageCountChangeEvent
 import cn.leancloud.chatkit.view.LCIMDividerItemDecoration
-import cn.odinaris.tacitchat.message.viewholder.LCIMConversationItemHolder
+import cn.odinaris.tacitchat.message.viewholder.ConversationItemHolder
 import com.avos.avoscloud.im.v2.AVIMConversation
 import de.greenrobot.event.EventBus
 import java.util.ArrayList
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.frg_conversation.*
 
 class ConversationFragment : Fragment() {
 
-    private var itemAdapter : LCIMCommonListAdapter<AVIMConversation> = LCIMCommonListAdapter(LCIMConversationItemHolder::class.java)
+    private var itemAdapter : ConversationListAdapter<AVIMConversation> = ConversationListAdapter(ConversationItemHolder::class.java)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.frg_conversation, container, false)

@@ -66,7 +66,7 @@ public class LCIMConversationFragment extends Fragment {
         this.inputBottomBar = (LCIMInputBottomBar)view.findViewById(R.id.inputbottombar);
         this.layoutManager = new LinearLayoutManager(this.getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
-        this.itemAdapter = this.getAdpter();
+        this.itemAdapter = this.getAdapter();
         this.itemAdapter.resetRecycledViewPoolSize(this.recyclerView);
         this.recyclerView.setAdapter(this.itemAdapter);
         EventBus.getDefault().register(this);
@@ -97,7 +97,7 @@ public class LCIMConversationFragment extends Fragment {
         });
     }
 
-    protected LCIMChatAdapter getAdpter() {
+    protected LCIMChatAdapter getAdapter() {
         return new LCIMChatAdapter();
     }
 
@@ -165,6 +165,7 @@ public class LCIMConversationFragment extends Fragment {
 
     public void onEvent(LCIMInputBottomBarTextEvent textEvent) {
         if(null != this.imConversation && null != textEvent && !TextUtils.isEmpty(textEvent.sendContent) && this.imConversation.getConversationId().equals(textEvent.tag)) {
+            //加密信息
             this.sendText(textEvent.sendContent);
         }
 
