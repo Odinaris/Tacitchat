@@ -26,12 +26,14 @@ import cn.leancloud.chatkit.cache.LCIMProfileCache
 import cn.leancloud.chatkit.event.LCIMMessageResendEvent
 import cn.leancloud.chatkit.utils.LCIMConstants
 import cn.leancloud.chatkit.utils.LCIMLogUtils
+import cn.odinaris.tacitchat.R
+import cn.odinaris.tacitchat.view.RoundImageView
 import de.greenrobot.event.EventBus
 
 /**
  * 聊天 item 的 holder
  */
-open class ChatItemHolder(context: Context, root: ViewGroup, protected var isLeft: Boolean) : BaseViewHolder<Any?>(context, root, if (isLeft) cn.leancloud.chatkit.R.layout.lcim_chat_item_left_layout else cn.leancloud.chatkit.R.layout.lcim_chat_item_right_layout) {
+open class ChatItemHolder(context: Context, root: ViewGroup, protected var isLeft: Boolean) : BaseViewHolder<Any?>(context, root, if (isLeft) R.layout.chat_item_left else R.layout.chat_item_right) {
     protected var message: AVIMMessage? = null
     protected var avatarView: ImageView? = null
     protected var timeView: TextView? = null
@@ -46,25 +48,24 @@ open class ChatItemHolder(context: Context, root: ViewGroup, protected var isLef
 
     open fun initView() {
         if (this.isLeft) {
-            this.avatarView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_iv_avatar) as ImageView
-            this.timeView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_tv_time) as TextView
-            this.nameView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_tv_name) as TextView
-            this.conventLayout = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_layout_content) as LinearLayout
-            this.statusLayout = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_layout_status) as FrameLayout
-            this.statusView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_tv_status) as TextView
-            this.progressBar = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_progressbar) as ProgressBar
-            this.errorView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_left_tv_error) as ImageView
+            this.avatarView = this.itemView.findViewById(R.id.chat_left_iv_avatar) as RoundImageView
+            this.timeView = this.itemView.findViewById(R.id.chat_left_tv_time) as TextView
+            this.nameView = this.itemView.findViewById(R.id.chat_left_tv_name) as TextView
+            this.conventLayout = this.itemView.findViewById(R.id.chat_left_layout_content) as LinearLayout
+            this.statusLayout = this.itemView.findViewById(R.id.chat_left_layout_status) as FrameLayout
+            this.statusView = this.itemView.findViewById(R.id.chat_left_tv_status) as TextView
+            this.progressBar = this.itemView.findViewById(R.id.chat_left_progressbar) as ProgressBar
+            this.errorView = this.itemView.findViewById(R.id.chat_left_tv_error) as ImageView
         } else {
-            this.avatarView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_iv_avatar) as ImageView
-            this.timeView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_tv_time) as TextView
-            this.nameView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_tv_name) as TextView
-            this.conventLayout = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_layout_content) as LinearLayout
-            this.statusLayout = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_layout_status) as FrameLayout
-            this.progressBar = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_progressbar) as ProgressBar
-            this.errorView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_tv_error) as ImageView
-            this.statusView = this.itemView.findViewById(cn.leancloud.chatkit.R.id.chat_right_tv_status) as TextView
+            this.avatarView = this.itemView.findViewById(R.id.chat_right_iv_avatar) as RoundImageView
+            this.timeView = this.itemView.findViewById(R.id.chat_right_tv_time) as TextView
+            this.nameView = this.itemView.findViewById(R.id.chat_right_tv_name) as TextView
+            this.conventLayout = this.itemView.findViewById(R.id.chat_right_layout_content) as LinearLayout
+            this.statusLayout = this.itemView.findViewById(R.id.chat_right_layout_status) as FrameLayout
+            this.progressBar = this.itemView.findViewById(R.id.chat_right_progressbar) as ProgressBar
+            this.errorView = this.itemView.findViewById(R.id.chat_right_tv_error) as ImageView
+            this.statusView = this.itemView.findViewById(R.id.chat_right_tv_status) as TextView
         }
-
         this.setAvatarClickEvent()
         this.setResendClickEvent()
     }
@@ -85,7 +86,6 @@ open class ChatItemHolder(context: Context, root: ViewGroup, protected var isLef
                         Picasso.with(this@ChatItemHolder.context).load(avatarUrl).placeholder(cn.leancloud.chatkit.R.drawable.lcim_default_avatar_icon).into(this@ChatItemHolder.avatarView)
                     }
                 }
-
             }
         })
         when (this.message!!.messageStatus.ordinal) {

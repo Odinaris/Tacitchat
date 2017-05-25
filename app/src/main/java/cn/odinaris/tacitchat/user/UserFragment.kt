@@ -56,12 +56,17 @@ class UserFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK, null)
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
             startActivityForResult(intent, IMAGE_PICK_REQUEST)
+
+        }
+        btn_embed.setOnClickListener {
+
+        }
+        btn_extract.setOnClickListener {
+
         }
     }
 
-    private fun initData() {
-        PathUtils.ctx = context
-    }
+    private fun initData() { PathUtils.ctx = context }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

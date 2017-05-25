@@ -21,9 +21,9 @@ class ChatItemLocationHolder(context: Context, root: ViewGroup, isLeft: Boolean)
 
     override fun initView() {
         super.initView()
-        conventLayout.addView(View.inflate(context, R.layout.lcim_chat_item_location, null))
+        conventLayout?.addView(View.inflate(context, R.layout.lcim_chat_item_location, null))
         contentView = itemView.findViewById(R.id.locationView) as TextView
-        conventLayout.setBackgroundResource(if (isLeft) R.drawable.lcim_chat_item_left_bg else R.drawable.lcim_chat_item_right_bg)
+        conventLayout?.setBackgroundResource(if (isLeft) R.drawable.lcim_chat_item_left_bg else R.drawable.lcim_chat_item_right_bg)
         contentView!!.setOnClickListener {
             val event = LCIMLocationItemClickEvent()
             event.message = message

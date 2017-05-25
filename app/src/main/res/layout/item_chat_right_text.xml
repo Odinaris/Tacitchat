@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:id="@+id/tv_chat_right_text"
+<cn.odinaris.tacitchat.view.BubbleTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_chat_right_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/chat_right"
-    android:gravity="center_vertical"
-    android:textColor="#fff"
-    android:textSize="16sp"/>
+    android:textSize="16sp"
+    android:padding="10dp"
+    android:textColor="@color/white"
+    app:arrowWidth="8dp"
+    app:angle="8dp"
+    app:arrowHeight="10dp"
+    app:arrowPosition="14dp"
+    app:arrowLocation="right"
+    app:arrowCenter="true"
+    app:bubbleColor="@color/darkBlack" />

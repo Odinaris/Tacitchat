@@ -25,9 +25,9 @@ class ChatItemAudioHolder(context: Context, root: ViewGroup, isLeft: Boolean) : 
     override fun initView() {
         super.initView()
         if (isLeft) {
-            conventLayout.addView(View.inflate(context, R.layout.lcim_chat_item_left_audio_layout, null))
+            conventLayout?.addView(View.inflate(context, R.layout.lcim_chat_item_left_audio_layout, null))
         } else {
-            conventLayout.addView(View.inflate(context, R.layout.lcim_chat_item_right_audio_layout, null))
+            conventLayout?.addView(View.inflate(context, R.layout.lcim_chat_item_right_audio_layout, null))
         }
         playButton = itemView.findViewById(R.id.chat_item_audio_play_btn) as LCIMPlayButton
         durationView = itemView.findViewById(R.id.chat_item_audio_duration_view) as TextView

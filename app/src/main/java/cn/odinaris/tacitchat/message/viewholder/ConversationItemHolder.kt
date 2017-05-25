@@ -18,7 +18,7 @@ import cn.leancloud.chatkit.utils.LCIMConstants
 import cn.leancloud.chatkit.utils.LCIMConversationUtils
 import cn.leancloud.chatkit.utils.LCIMLogUtils
 import cn.odinaris.tacitchat.R
-import cn.odinaris.tacitchat.message.ConversationActivity
+import cn.odinaris.tacitchat.message.ChatActivity
 import cn.odinaris.tacitchat.view.RoundImageView
 import com.avos.avoscloud.AVCallback
 import com.avos.avoscloud.AVException
@@ -142,7 +142,7 @@ class ConversationItemHolder(root: ViewGroup) : BaseViewHolder<AVIMConversation>
 
     private fun onConversationItemClick(conversation: AVIMConversation) {
         try {
-            val intent = Intent(context, ConversationActivity::class.java)
+            val intent = Intent(context, ChatActivity::class.java)
             intent.putExtra(LCIMConstants.CONVERSATION_ID, conversation.conversationId)
             this.context.startActivity(intent)
         } catch (var3: ActivityNotFoundException) {

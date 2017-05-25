@@ -23,7 +23,7 @@
         <cn.odinaris.tacitchat.view.RoundImageView
             android:id="@+id/chat_left_iv_avatar"
             style="@style/LCIMAvatar"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"/>
         <LinearLayout
             android:id="@+id/chat_left_layout_content"

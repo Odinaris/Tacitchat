@@ -8,7 +8,7 @@
         android:id="@+id/srl_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/inputbottombar">
+        android:layout_above="@+id/tib_input_bar">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_chat"
@@ -16,8 +16,13 @@
             android:layout_height="match_parent"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <cn.leancloud.chatkit.view.LCIMInputBottomBar
-        android:id="@+id/inputbottombar"
+    <!--<cn.leancloud.chatkit.view.LCIMInputBottomBar-->
+        <!--android:id="@+id/inputbottombar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"/>-->
+    <cn.odinaris.tacitchat.view.TacitInputBar
+        android:id="@+id/tib_input_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"/>

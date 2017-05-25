@@ -19,7 +19,7 @@ import cn.odinaris.tacitchat.message.viewholder.ChatItemLocationHolder;
 import cn.odinaris.tacitchat.message.viewholder.ChatItemTextHolder;
 import cn.odinaris.tacitchat.message.viewholder.BaseViewHolder;
 
-public class LCIMChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   private final int ITEM_LEFT = 100;
   private final int ITEM_LEFT_TEXT = 101;
   private final int ITEM_LEFT_IMAGE = 102;
@@ -35,7 +35,7 @@ public class LCIMChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   private boolean isShowUserName = true;
   protected List<AVIMMessage> messageList = new ArrayList();
 
-  public LCIMChatAdapter() {
+  public ChatListAdapter() {
   }
 
   public void setMessageList(List<AVIMMessage> messages) {

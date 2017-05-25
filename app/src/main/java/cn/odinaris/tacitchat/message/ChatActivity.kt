@@ -15,8 +15,6 @@ import com.avos.avoscloud.im.v2.AVIMConversation
 import com.avos.avoscloud.im.v2.AVIMException
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback
 
-import java.util.Arrays
-
 import cn.leancloud.chatkit.LCChatKit
 import cn.leancloud.chatkit.cache.LCIMConversationItemCache
 import cn.leancloud.chatkit.utils.LCIMConstants
@@ -26,15 +24,15 @@ import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.util.ConversationUtils
 import kotlinx.android.synthetic.main.act_conversation.*
 
-class ConversationActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() {
     val QUIT_GROUP_REQUEST = 200
-    var conversationFragment: LCIMConversationFragment = LCIMConversationFragment()
+    var chatFragment: ChatFragment = ChatFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         this.setContentView(R.layout.act_conversation)
-        this.conversationFragment = this.supportFragmentManager.findFragmentById(R.id.frag_conversation) as LCIMConversationFragment
+        this.chatFragment = this.supportFragmentManager.findFragmentById(R.id.frag_conversation) as ChatFragment
         this.initByIntent(this.intent)
     }
 
@@ -78,7 +76,7 @@ class ConversationActivity : AppCompatActivity() {
 
     fun updateConversation(conversation: AVIMConversation?) {
         if (null != conversation) {
-            this.conversationFragment.setConversation(conversation)
+            this.chatFragment.setConversation(conversation)
             LCIMConversationItemCache.getInstance().clearUnread(conversation.conversationId)
             LCIMConversationUtils.getConversationName(conversation, object : AVCallback<String>() {
                 override fun internalDone0(s: String, e: AVException?) {
@@ -96,10 +94,10 @@ class ConversationActivity : AppCompatActivity() {
 //        LCChatKit.getInstance().client.createConversation(Arrays.asList(*arrayOf(memberId)), "", null as Map<String, Any>?, false, true, object : AVIMConversationCreatedCallback() {
 //            override fun done(avimConversation: AVIMConversation, e: AVIMException?) {
 //                if (null != e) {
-//                    this@ConversationActivity.showToast(e.message!!)
+//                    this@ChatActivity.showToast(e.message!!)
 //                }
 //                else {
-//                    this@ConversationActivity.updateConversation(avimConversation)
+//                    this@ChatActivity.updateConversation(avimConversation)
 //                }
 //
 //            }
@@ -116,10 +114,11 @@ class ConversationActivity : AppCompatActivity() {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode == Activity.RESULT_OK) { when (requestCode) { QUIT_GROUP_REQUEST -> finish() } }
+        if(intent!=null){
+            if (resultCode == Activity.RESULT_OK) { when (requestCode) { QUIT_GROUP_REQUEST -> finish() } }
+        }
     }
-
 }
 

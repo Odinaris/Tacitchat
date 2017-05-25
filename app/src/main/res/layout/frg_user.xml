@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -13,24 +14,48 @@
         app:titleTextColor="@color/darkBlack"
         android:background="#fff"/>
 
-    <cn.odinaris.tacitchat.view.RoundImageView
-        android:id="@+id/iv_user_avatar"
-        android:layout_width="140sp"
-        android:layout_height="140sp"
-        android:layout_marginTop="16sp"/>
-    <TextView
-        android:id="@+id/tv_username"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textColor="@color/darkBlack"
-        android:gravity="center"
-        android:padding="8sp"/>
+        android:layout_height="90sp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16sp"
+        android:background="#fff">
+        <cn.odinaris.tacitchat.view.RoundImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="90sp"
+            android:layout_height="90sp"
+            android:padding="8sp"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@color/darkBlack"
+            android:gravity="center_vertical"
+            android:paddingStart="8sp"/>
+    </LinearLayout>
     <Button
         android:id="@+id/btn_update_avatar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="上传头像"
+        android:textColor="#fff"
+        android:background="@color/darkBlack"
+        android:layout_margin="8sp"/>
+    <Button
+        android:id="@+id/btn_embed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="嵌入信息"
+        android:textColor="#fff"
+        android:background="@color/darkBlack"
+        android:layout_margin="8sp"/>
+    <Button
+        android:id="@+id/btn_extract"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提取信息"
         android:textColor="#fff"
         android:background="@color/darkBlack"
         android:layout_margin="8sp"/>

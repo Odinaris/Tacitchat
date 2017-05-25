@@ -15,7 +15,7 @@
         android:layout_below="@+id/tb_conversation_username">
         <fragment
             android:id="@+id/frag_conversation"
-            android:name="cn.odinaris.tacitchat.message.LCIMConversationFragment"
+            android:name="cn.odinaris.tacitchat.message.ChatFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

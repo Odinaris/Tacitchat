@@ -8,7 +8,7 @@ import android.view.Window
 import android.widget.Toast
 import cn.leancloud.chatkit.utils.LCIMConstants
 import cn.odinaris.tacitchat.R
-import cn.odinaris.tacitchat.message.ConversationActivity
+import cn.odinaris.tacitchat.message.ChatActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.act_user_profile.*
 import com.avos.avoscloud.AVException
@@ -53,7 +53,7 @@ class UserProfileActivity : AppCompatActivity() {
             Toast.makeText(this,"添加好友!",Toast.LENGTH_SHORT).show()
         }
         tv_chat.setOnClickListener{
-            val intent = Intent(this, ConversationActivity::class.java)
+            val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra(LCIMConstants.PEER_ID, objectId)
             intent.putExtra(username, username)
             startActivity(intent)

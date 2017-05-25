@@ -61,8 +61,9 @@
         <activity android:name=".contacts.ContactAddFriendActivity" />
         <activity android:name=".user.UserProfileActivity" />
         <activity
-            android:name=".message.ConversationActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:name=".message.ChatActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".EmbedActivity"></activity>
     </application>
 
 </manifest>
