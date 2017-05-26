@@ -1,4 +1,4 @@
-package cn.odinaris.tacitchat.util
+package cn.odinaris.tacitchat.utils
 
 import android.text.TextUtils
 
@@ -10,9 +10,7 @@ import java.util.HashMap
 import cn.odinaris.tacitchat.user.TacitUser
 
 /**
- * TODO
- * 1、本地存储
- * 2、避免内存、外存占用过多
+ * TODO 1、本地存储 2、避免内存、外存占用过多
  */
 object UserCacheUtils {
 

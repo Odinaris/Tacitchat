@@ -1,4 +1,4 @@
-package cn.odinaris.tacitchat.util;
+package cn.odinaris.tacitchat.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

@@ -21,7 +21,7 @@ import cn.leancloud.chatkit.utils.LCIMConstants
 import cn.leancloud.chatkit.utils.LCIMConversationUtils
 import cn.leancloud.chatkit.utils.LCIMLogUtils
 import cn.odinaris.tacitchat.R
-import cn.odinaris.tacitchat.util.ConversationUtils
+import cn.odinaris.tacitchat.utils.ConversationUtils
 import kotlinx.android.synthetic.main.act_conversation.*
 
 class ChatActivity : AppCompatActivity() {

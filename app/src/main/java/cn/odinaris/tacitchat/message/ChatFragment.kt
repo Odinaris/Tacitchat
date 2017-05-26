@@ -3,6 +3,7 @@ package cn.odinaris.tacitchat.message
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -29,19 +30,16 @@ import java.io.File
 import java.io.IOException
 
 import cn.leancloud.chatkit.event.LCIMIMTypeMessageEvent
-import cn.leancloud.chatkit.event.LCIMInputBottomBarEvent
-import cn.leancloud.chatkit.event.LCIMInputBottomBarRecordEvent
-import cn.leancloud.chatkit.event.LCIMInputBottomBarTextEvent
 import cn.leancloud.chatkit.event.LCIMMessageResendEvent
 import cn.leancloud.chatkit.utils.LCIMAudioHelper
 import cn.leancloud.chatkit.utils.LCIMLogUtils
 import cn.leancloud.chatkit.utils.LCIMNotificationUtils
 import cn.leancloud.chatkit.utils.LCIMPathUtils
-import cn.leancloud.chatkit.view.LCIMInputBottomBar
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.event.TacitInputBarEvent
 import cn.odinaris.tacitchat.event.TacitInputBarRecordEvent
 import cn.odinaris.tacitchat.event.TacitInputBarTextEvent
+import cn.odinaris.tacitchat.utils.PathUtils
 import cn.odinaris.tacitchat.view.TacitInputBar
 import de.greenrobot.event.EventBus
 
@@ -52,7 +50,6 @@ class ChatFragment : Fragment() {
     var layoutManager: LinearLayoutManager? = null
     var inputBar: TacitInputBar? = null
     var refreshLayout: SwipeRefreshLayout? = null
-    //var inputBottomBar: LCIMInputBottomBar? = null
     var localCameraPath: String? = null
     val RESULT_PICK_GALLERY = 1     //选择相册图片
     val RESULT_PICK_CAMERA = 2      //打开相机进行拍照
@@ -64,7 +61,6 @@ class ChatFragment : Fragment() {
         this.recyclerView = view.findViewById(R.id.rv_chat) as RecyclerView
         this.refreshLayout = view.findViewById(R.id.srl_chat) as SwipeRefreshLayout
         this.refreshLayout?.isEnabled = false
-        //this.inputBottomBar = view.findViewById(R.id.inputbottombar) as LCIMInputBottomBar
         this.inputBar = view.findViewById(R.id.tib_input_bar) as TacitInputBar
         this.layoutManager = LinearLayoutManager(this.activity)
         this.recyclerView?.layoutManager = this.layoutManager
@@ -196,11 +192,8 @@ class ChatFragment : Fragment() {
     //选择本地图片
     private fun dispatchGetPictureIntent() {
         val intent = Intent()
-        /* 开启Pictures画面Type设定为image */
         intent.type = "image/*"
-        /* 使用Intent.ACTION_GET_CONTENT这个Action */
         intent.action = Intent.ACTION_GET_CONTENT
-        /* 取得相片后返回本画面 */
         startActivityForResult(intent, RESULT_PICK_IMAGE)
     }
 
@@ -232,11 +225,9 @@ class ChatFragment : Fragment() {
     }
 
     private fun getRealPathFromURI(context: Context, contentUri: Uri): String {
-        if (contentUri.scheme == "file") {
-            return contentUri.encodedPath
-        } else {
+        if (contentUri.scheme == "file") { return contentUri.encodedPath }
+        else {
             var cursor: Cursor? = null
-
             val var5: String
             try {
                 val proj = arrayOf("_data")
@@ -247,15 +238,10 @@ class ChatFragment : Fragment() {
                     val var6 = cursor.getString(column_index)
                     return var6
                 }
-
                 var5 = ""
             } finally {
-                if (cursor != null) {
-                    cursor.close()
-                }
-
+                if (cursor != null) { cursor.close() }
             }
-
             return var5
         }
     }
@@ -268,7 +254,8 @@ class ChatFragment : Fragment() {
 
     private fun sendImage(imagePath: String?) {
         try {
-            this.sendMessage(AVIMImageMessage(imagePath))
+            //Todo 输入选择的图片Url，生成加密后的图片Url并发送
+            this.sendMessage(AVIMImageMessage(imagePath!!))
         } catch (var3: IOException) {
             LCIMLogUtils.logException(var3)
         }
@@ -313,12 +300,35 @@ class ChatFragment : Fragment() {
         if (-1 == resultCode) {
             if(data != null){
                 when (requestCode) {
-                    RESULT_PICK_GALLERY -> this.sendImage(this.localCameraPath)
-                    RESULT_PICK_CAMERA -> this.sendImage(this.getRealPathFromURI(this.activity, data.data))
-                    //RESULT_PICK_IMAGE ->
+                    RESULT_PICK_GALLERY -> this.sendImage(this.getRealPathFromURI(this.activity, data.data))
+                    RESULT_PICK_CAMERA -> this.sendImage(this.localCameraPath)
+                    RESULT_PICK_IMAGE ->{
+                        //嵌入文本信息时
+                        //
+                        //startImageCrop(uri, 200, 200, CROP_REQUEST)
+                    }
+
                 }
             }
         }
     }
 
+    fun startImageCrop(uri: Uri, outputX: Int, outputY: Int, requestCode: Int): Uri {
+        val intent = Intent("com.android.camera.action.CROP")
+        intent.setDataAndType(uri, "image/*")
+        intent.putExtra("crop", "true")
+        intent.putExtra("aspectX", 1)
+        intent.putExtra("aspectY", 1)
+        intent.putExtra("outputX", outputX)
+        intent.putExtra("outputY", outputY)
+        intent.putExtra("scale", true)
+        val outputPath = PathUtils.avatarTmpPath()
+        val outputUri = Uri.fromFile(File(outputPath))
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri)
+        intent.putExtra("return-data", true)
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
+        intent.putExtra("noFaceDetection", false) // face detection
+        startActivityForResult(intent, requestCode)
+        return outputUri
+    }
 }

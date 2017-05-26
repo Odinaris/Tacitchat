@@ -1,4 +1,4 @@
-package cn.odinaris.tacitchat.util
+package cn.odinaris.tacitchat.utils
 
 import android.content.Context
 import android.os.Environment

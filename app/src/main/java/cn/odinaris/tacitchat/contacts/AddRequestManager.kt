@@ -11,13 +11,10 @@ import com.avos.avoscloud.FindCallback
 import com.avos.avoscloud.FollowCallback
 import com.avos.avoscloud.SaveCallback
 
-import cn.odinaris.tacitchat.App
-import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.service.PushManager
 import cn.odinaris.tacitchat.user.TacitUser
-import cn.odinaris.tacitchat.util.Constants
-import cn.odinaris.tacitchat.util.SimpleNetTask
-import cn.odinaris.tacitchat.util.Utils
+import cn.odinaris.tacitchat.utils.Constants
+import cn.odinaris.tacitchat.utils.SimpleNetTask
 
 internal class AddRequestManager {
 

@@ -13,8 +13,8 @@ import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.adapter.ContactsAdapter
 import cn.odinaris.tacitchat.user.TacitUser
 import cn.odinaris.tacitchat.user.UserProfileActivity
-import cn.odinaris.tacitchat.util.Utils.filterException
-import cn.odinaris.tacitchat.util.Utils.showSpinnerDialog
+import cn.odinaris.tacitchat.utils.Utils.filterException
+import cn.odinaris.tacitchat.utils.Utils.showSpinnerDialog
 import com.avos.avoscloud.AVException
 import com.avos.avoscloud.FindCallback
 import com.avos.avoscloud.SaveCallback

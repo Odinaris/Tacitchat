@@ -9,7 +9,7 @@ import android.widget.Toast
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.user.TacitUser
 import cn.odinaris.tacitchat.user.UserProfileActivity
-import cn.odinaris.tacitchat.util.Utils
+import cn.odinaris.tacitchat.utils.Utils
 import com.avos.avoscloud.AVException
 import com.avos.avoscloud.FindCallback
 import kotlinx.android.synthetic.main.act_add_contact.*

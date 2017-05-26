@@ -1,4 +1,4 @@
-package cn.odinaris.tacitchat.util
+package cn.odinaris.tacitchat.utils
 
 import java.util.ArrayList
 import cn.leancloud.chatkit.LCChatKitUser

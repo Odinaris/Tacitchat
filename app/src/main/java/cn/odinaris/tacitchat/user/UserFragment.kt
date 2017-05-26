@@ -13,10 +13,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import cn.leancloud.chatkit.LCChatKit
 import cn.odinaris.tacitchat.R
+import cn.odinaris.tacitchat.data_hiding.EmbedActivity
+import cn.odinaris.tacitchat.data_hiding.ExtractActivity
 import cn.odinaris.tacitchat.login.LoginActivity
 import cn.odinaris.tacitchat.service.PushManager
-import cn.odinaris.tacitchat.util.PathUtils
-import cn.odinaris.tacitchat.util.Utils
+import cn.odinaris.tacitchat.utils.PathUtils
+import cn.odinaris.tacitchat.utils.Utils
 import com.avos.avoscloud.im.v2.AVIMClient
 import com.avos.avoscloud.im.v2.AVIMException
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback
@@ -59,10 +61,10 @@ class UserFragment : Fragment() {
 
         }
         btn_embed.setOnClickListener {
-
+            startActivity(Intent(activity,EmbedActivity::class.java))
         }
         btn_extract.setOnClickListener {
-
+            startActivity(Intent(activity,ExtractActivity::class.java))
         }
     }
 

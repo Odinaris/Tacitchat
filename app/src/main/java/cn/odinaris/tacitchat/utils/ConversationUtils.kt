@@ -1,11 +1,10 @@
-package cn.odinaris.tacitchat.util
+package cn.odinaris.tacitchat.utils
 
 import android.text.TextUtils
 
 import com.avos.avoscloud.AVCallback
 import com.avos.avoscloud.AVException
 import com.avos.avoscloud.im.v2.AVIMConversation
-import com.avos.avoscloud.im.v2.AVIMConversationQuery
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback
 import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback
 

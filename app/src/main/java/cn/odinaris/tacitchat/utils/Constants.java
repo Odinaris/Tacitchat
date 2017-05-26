@@ -1,4 +1,4 @@
-package cn.odinaris.tacitchat.util;
+package cn.odinaris.tacitchat.utils;
 
 /**
  * 用来存放各种 static final 值

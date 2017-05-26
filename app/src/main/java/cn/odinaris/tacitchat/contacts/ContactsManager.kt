@@ -7,7 +7,7 @@ import com.avos.avoscloud.FindCallback
 import java.util.ArrayList
 
 import cn.odinaris.tacitchat.user.TacitUser
-import cn.odinaris.tacitchat.util.UserCacheUtils
+import cn.odinaris.tacitchat.utils.UserCacheUtils
 
 
 object ContactsManager {

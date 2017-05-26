@@ -63,7 +63,8 @@
         <activity
             android:name=".message.ChatActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".EmbedActivity"></activity>
+        <activity android:name=".data_hiding.EmbedActivity" />
+        <activity android:name=".data_hiding.ExtractActivity"></activity>
     </application>
 
 </manifest>

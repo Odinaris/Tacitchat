@@ -6,7 +6,7 @@ import android.content.Context
 import cn.leancloud.chatkit.LCChatKit
 import cn.odinaris.tacitchat.contacts.AddRequest
 import cn.odinaris.tacitchat.user.TacitUser
-import cn.odinaris.tacitchat.util.TacitUserProvider
+import cn.odinaris.tacitchat.utils.TacitUserProvider
 import com.avos.avoscloud.AVObject
 
 class App : Application() {

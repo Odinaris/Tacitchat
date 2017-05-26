@@ -12,7 +12,7 @@ import cn.leancloud.chatkit.LCChatKit
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.login.LoginActivity
 import cn.odinaris.tacitchat.user.TacitChatUser
-import cn.odinaris.tacitchat.util.ImageUtils
+import cn.odinaris.tacitchat.utils.ImageUtils
 import com.avos.avoscloud.im.v2.AVIMClient
 import com.avos.avoscloud.im.v2.AVIMException
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback

@@ -10,11 +10,11 @@
         android:id="@+id/tb_embed"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="嵌入信息"
+        app:title="提取信息"
         app:titleTextColor="#fff"
         android:background="@color/darkBlack"/>
     <ImageView
-        android:id="@+id/iv_cover"
+        android:id="@+id/iv_stego"
         android:layout_width="match_parent"
         android:layout_height="0sp"
         android:layout_weight="1"
@@ -36,20 +36,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="点击选择载体图片"
+            android:text="点击选择载密图片"
             android:textColor="@color/darkBlack"
             android:textSize="20sp"
             android:layout_margin="8sp"
             android:gravity="center"/>
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/et_secret_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8sp"
-        android:hint="填写秘密信息"
-        android:textColor="@color/darkBlack"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,10 +56,10 @@
             android:hint="输入密钥"
             android:textColor="@color/darkBlack"/>
         <Button
-            android:id="@+id/btn_embed"
+            android:id="@+id/btn_extract"
             android:layout_width="80sp"
             android:layout_height="wrap_content"
-            android:text="嵌入信息"/>
+            android:text="提取信息"/>
     </LinearLayout>
 
 
