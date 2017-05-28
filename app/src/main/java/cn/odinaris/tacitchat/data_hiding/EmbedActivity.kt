@@ -157,6 +157,5 @@ class EmbedActivity : AppCompatActivity() {
                 }
             }
         }
-        Log.e("EMBED","嵌入完成")
     }
 }
