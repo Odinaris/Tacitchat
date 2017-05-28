@@ -10,9 +10,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import cn.odinaris.tacitchat.R
+import cn.odinaris.tacitchat.event.EmbedEvent
+import cn.odinaris.tacitchat.event.SelectImageEvent
 import cn.odinaris.tacitchat.event.TacitInputBarEvent
 import cn.odinaris.tacitchat.event.TacitInputBarTextEvent
 import de.greenrobot.event.EventBus
+import kotlinx.android.synthetic.main.bar_input.view.*
 
 
 class TacitInputBar : LinearLayout {
@@ -68,6 +71,10 @@ class TacitInputBar : LinearLayout {
         this.tib_file.setOnClickListener { EventBus.getDefault().post(TacitInputBarEvent(4, this@TacitInputBar.tag)) }
         this.tib_fire.setOnClickListener { EventBus.getDefault().post(TacitInputBarEvent(5, this@TacitInputBar.tag)) }
         this.tib_embed.setOnClickListener { EventBus.getDefault().post(TacitInputBarEvent(6, this@TacitInputBar.tag)) }
+        //点击后隐藏
+        this.ll_placeholder.setOnClickListener { EventBus.getDefault().post(SelectImageEvent()) }
+        this.btn_send.setOnClickListener { EventBus.getDefault().post(EmbedEvent()) }
+
     }
 
     private fun setEditTextChangeListener() {

@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
@@ -14,6 +17,8 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 
@@ -36,12 +41,14 @@ import cn.leancloud.chatkit.utils.LCIMLogUtils
 import cn.leancloud.chatkit.utils.LCIMNotificationUtils
 import cn.leancloud.chatkit.utils.LCIMPathUtils
 import cn.odinaris.tacitchat.R
-import cn.odinaris.tacitchat.event.TacitInputBarEvent
-import cn.odinaris.tacitchat.event.TacitInputBarRecordEvent
-import cn.odinaris.tacitchat.event.TacitInputBarTextEvent
+import cn.odinaris.tacitchat.event.*
+import cn.odinaris.tacitchat.utils.ImageUtils
 import cn.odinaris.tacitchat.utils.PathUtils
 import cn.odinaris.tacitchat.view.TacitInputBar
 import de.greenrobot.event.EventBus
+import kotlinx.android.synthetic.main.bar_input.*
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 
 class ChatFragment : Fragment() {
     var imConversation: AVIMConversation? = null
@@ -55,6 +62,9 @@ class ChatFragment : Fragment() {
     val RESULT_PICK_CAMERA = 2      //打开相机进行拍照
     val RESULT_PICK_IMAGE = 3       //选择本地图片(相册/拍照)
     val RESULT_EMBED_IMAGE = 4      //嵌入信息
+    var cover: Bitmap? = null
+    var stego: Bitmap? = null
+    var coverPath: String = ""
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.frg_chat, container, false)
@@ -175,10 +185,26 @@ class ChatFragment : Fragment() {
                 1 -> this.dispatchTakePictureIntent()
                 4 -> this.sendFile()                    //发送文件
                 5 -> this.fireMessage()                 //阅后即焚
-                6 -> this.dispatchGetPictureIntent()    //选择图片进行嵌入
+                6 -> toggleEmbedLayout()   //选择图片进行嵌入
             }
         }
     }
+
+    fun onEvent(event: SelectImageEvent?){
+        if(null != event){
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(intent, RESULT_PICK_IMAGE)
+        }
+    }
+
+    fun onEvent(event: EmbedEvent?){
+        if(null != event && !et_key.text.isEmpty() && !et_secret.text.isEmpty()){ EmbedAsyncTask().execute() }
+    }
+
+    //切换嵌入布局的显示隐藏
+    private fun toggleEmbedLayout() { ll_embed.visibility = if(ll_embed.visibility == VISIBLE) GONE else VISIBLE }
 
     //发送语音
     fun onEvent(recordEvent: TacitInputBarRecordEvent?) {
@@ -259,7 +285,6 @@ class ChatFragment : Fragment() {
         } catch (var3: IOException) {
             LCIMLogUtils.logException(var3)
         }
-
     }
 
     private fun sendAudio(audioPath: String) {
@@ -303,14 +328,29 @@ class ChatFragment : Fragment() {
                     RESULT_PICK_GALLERY -> this.sendImage(this.getRealPathFromURI(this.activity, data.data))
                     RESULT_PICK_CAMERA -> this.sendImage(this.localCameraPath)
                     RESULT_PICK_IMAGE ->{
+                        this.showCoverImage(data.data)
                         //嵌入文本信息时
-                        //
                         //startImageCrop(uri, 200, 200, CROP_REQUEST)
                     }
-
                 }
             }
         }
+    }
+
+    private fun showCoverImage(data: Uri) {
+        ll_placeholder.visibility = View.GONE
+        val file = ImageUtils.switchUri2File(activity, data)
+        //Bitmap解码配置
+        val options = BitmapFactory.Options()
+        options.inMutable = true
+        options.inSampleSize = 1
+        options.inScaled = false
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888
+        cover = BitmapFactory.decodeFile(file.absolutePath,options)
+        coverPath = file.parent
+        ll_placeholder.visibility = View.GONE
+        iv_select.setImageBitmap(cover)
+        iv_select.visibility = View.VISIBLE
     }
 
     fun startImageCrop(uri: Uri, outputX: Int, outputY: Int, requestCode: Int): Uri {
@@ -330,5 +370,101 @@ class ChatFragment : Fragment() {
         intent.putExtra("noFaceDetection", false) // face detection
         startActivityForResult(intent, requestCode)
         return outputUri
+    }
+
+    private fun embedSecretInfo(secretBits: String, cover: Bitmap?) {
+        stego = cover
+        val secretLength = Integer.toBinaryString(secretBits.length)
+        val sb = StringBuilder(16)
+        if(secretLength.length<16){ (0..16-secretLength.length-1).forEach { sb.append("0") } }
+        sb.append(secretLength)
+        val secretInfo = sb.toString() + secretBits
+        val width = cover!!.width
+        val rows = secretInfo.length / width
+        val restBitsLength = secretInfo.length - rows * width
+        for(r in 0..rows-1){
+            for(w in 0..width-1){
+                val red = Color.red(cover.getPixel(w,r))
+                if(secretInfo[(r*width)+w]=='0'){
+                    if(red % 2 !=0){
+                        stego!!.setPixel(w,r, Color.argb(0xFF,red-1,
+                                Color.green(cover.getPixel(w,r)),
+                                Color.blue(cover.getPixel(w,r))))
+                    }
+                }else{
+                    if(red % 2 == 0){
+                        if(red != 0){
+                            stego!!.setPixel(w,r, Color.argb(0xFF,red-1,
+                                    Color.green(cover.getPixel(w,r)),
+                                    Color.blue(cover.getPixel(w,r))))
+                        }else{
+                            stego!!.setPixel(w,r, Color.argb(0xFF,1,
+                                    Color.green(cover.getPixel(w,r)),
+                                    Color.blue(cover.getPixel(w,r))))
+                        }
+                    }
+                }
+            }
+        }
+        //最后一行
+        if(restBitsLength != 0){
+            for(w in 0..restBitsLength-1){
+                val red = Color.red(cover.getPixel(w,rows))
+                if(secretInfo[(rows*width)+w]=='0'){
+                    if(red % 2 !=0){
+                        stego!!.setPixel(w,rows, Color.argb(0xFF,red-1,
+                                Color.green(cover.getPixel(w,rows)),
+                                Color.blue(cover.getPixel(w,rows))))
+                    }
+                }else{
+                    if(red % 2 == 0){
+                        if(red != 0){
+                            stego!!.setPixel(w,rows, Color.argb(0xFF,red-1,
+                                    Color.green(cover.getPixel(w,rows)),
+                                    Color.blue(cover.getPixel(w,rows))))
+                        }else{
+                            stego!!.setPixel(w,rows, Color.argb(0xFF,1,
+                                    Color.green(cover.getPixel(w,rows)),
+                                    Color.blue(cover.getPixel(w,rows))))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    inner class EmbedAsyncTask: AsyncTask<Void, Int, Int>(){
+        override fun doInBackground(vararg bmp: Void): Int {
+            embedSecretInfo(et_secret.text.toString(),cover)
+            return 0
+        }
+        override fun onPostExecute(result: Int) {
+            super.onPostExecute(result)
+            val file = File(coverPath + "/stego1.png")
+            val out: FileOutputStream
+            try {
+                out = FileOutputStream(file)
+                if (stego!!.compress(Bitmap.CompressFormat.PNG, 100, out)) {
+                    out.flush()
+                    out.close()
+                }
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            val uri = Uri.fromFile(File(file.absolutePath))
+            intent.data = uri
+            activity.sendBroadcast(intent)//通知图库更新
+            Toast.makeText(context,"信息嵌入完成!已成功发送!",Toast.LENGTH_SHORT).show()
+            pb_loading.visibility = GONE
+            btn_send.isEnabled = true
+            sendImage(file.absolutePath)
+        }
+        override fun onPreExecute() {
+            pb_loading.visibility = VISIBLE
+            btn_send.isEnabled = false
+        }
     }
 }

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Toast
@@ -43,7 +44,7 @@ class EmbedActivity : AppCompatActivity() {
                     if(!et_secret_info.text.toString().isEmpty()){
                         val secretBits = CodeUtils.Str2BinStr(secretInfo)
                         embedSecretInfo(secretBits,cover)
-                        val file = File(coverPath + "/stego1.png")
+                        val file = File(coverPath + "/stego2.png")
                         val out: FileOutputStream
                         try {
                             out = FileOutputStream(file)
@@ -156,5 +157,6 @@ class EmbedActivity : AppCompatActivity() {
                 }
             }
         }
+        Log.e("EMBED","嵌入完成")
     }
 }
