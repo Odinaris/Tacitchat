@@ -18,7 +18,7 @@ class UserProfileActivity : AppCompatActivity() {
 
     var objectId = ""
     var avatarUrl = ""
-    var username = ""
+    var username:String? = ""
     var isAdded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

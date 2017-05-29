@@ -111,7 +111,7 @@ class ConversationItemHolder(root: ViewGroup) : BaseViewHolder<AVIMConversation>
         if (null != conversation) {
             if (!conversation.isTransient && conversation.members.size <= 2) {
                 LCIMConversationUtils.getConversationPeerIcon(conversation, object : AVCallback<String>() {
-                    override fun internalDone0(s: String, e: AVException?) {
+                    override fun internalDone0(s: String?, e: AVException?) {
                         if (null != e) { LCIMLogUtils.logException(e) }
                         if (!TextUtils.isEmpty(s)) {
                             Picasso.with(this@ConversationItemHolder.context).load(s).placeholder(cn.leancloud.chatkit.R.drawable.lcim_default_avatar_icon).into(this@ConversationItemHolder.avatarView)
