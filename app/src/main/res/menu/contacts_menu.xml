@@ -2,17 +2,9 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        android:inputType="textCapWords"
-        android:imeOptions="actionSearch"
-        android:title="search"
-        app:showAsAction="ifRoom"
-        />
     <item android:id="@+id/add"
         android:enabled="true"
+        android:icon="@drawable/ic_add_friends"
         android:title="添加好友"
-        app:showAsAction="never"
-        />
+        app:showAsAction="ifRoom" />
 </menu>

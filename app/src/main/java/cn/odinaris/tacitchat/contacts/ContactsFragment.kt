@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,9 +43,6 @@ class ContactsFragment : Fragment() {
         contactsAdapter?.setOnItemClickListener(object:ContactsAdapter.onItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(context, UserProfileActivity::class.java)
-                /**
-                 * Todo 只传objectId，其余信息通过objectId查询展示。
-                * **/
                 intent.putExtra("objectId",contacts[position].objectId)
                 intent.putExtra("avatarUrl",contacts[position].avatarUrl)
                 intent.putExtra("username",contacts[position].username)
@@ -66,23 +64,12 @@ class ContactsFragment : Fragment() {
                         }).setNegativeButton("取消", null).show()
             }
         })
-        tb_contacts.inflateMenu(R.menu.contacts_menu)
-        tb_contacts.setOnMenuItemClickListener { item ->
+        val toolbar = tb_contacts as Toolbar
+        toolbar.inflateMenu(R.menu.contacts_menu)
+        toolbar.setOnMenuItemClickListener { item ->
             when(item.itemId){
-                R.id.search -> {
-                    /**
-                     * Todo 搜索联系人
-                     * */
-                }
-                R.id.add -> {
-                    /**
-                     * Todo 更改添加好友图标，将其显式展示在toolbar中
-                     * */
-                    startActivity(Intent(activity,ContactAddFriendActivity::class.java))
-                }
-
+                R.id.add -> { startActivity(Intent(activity,ContactAddFriendActivity::class.java)) }
                 else -> { }
-
             }
             true
         }

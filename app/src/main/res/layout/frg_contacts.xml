@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <android.support.v7.widget.Toolbar
+    <include
         android:id="@+id/tb_contacts"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="TacitChat"
-        app:titleTextColor="@color/darkBlack"
-        android:background="#fff"/>
+        layout="@layout/item_title"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

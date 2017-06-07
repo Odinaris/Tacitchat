@@ -6,14 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
-    <android.support.v7.widget.Toolbar
+    <include
         android:id="@+id/tb_user"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="TacitChat"
-        app:titleTextColor="@color/darkBlack"
-        android:background="#fff"/>
-
+        layout="@layout/item_title"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90sp"
@@ -24,6 +19,7 @@
             android:id="@+id/iv_user_avatar"
             android:layout_width="90sp"
             android:layout_height="90sp"
+            android:padding="12sp"
             android:scaleType="centerCrop"/>
         <TextView
             android:id="@+id/tv_username"

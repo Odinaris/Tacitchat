@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.widget.Toast
 import cn.leancloud.chatkit.utils.LCIMConstants
 import cn.odinaris.tacitchat.R
@@ -12,7 +11,6 @@ import cn.odinaris.tacitchat.message.ChatActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.act_user_profile.*
 import com.avos.avoscloud.AVException
-import com.avos.avoscloud.AVUser
 import com.avos.avoscloud.FollowCallback
 
 class UserProfileActivity : AppCompatActivity() {
@@ -24,7 +22,6 @@ class UserProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.act_user_profile)
         getUserData()
         initView()

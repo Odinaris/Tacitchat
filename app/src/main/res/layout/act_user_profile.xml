@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="添加好友"
-        app:titleTextColor="@color/darkBlack"
-        android:background="@color/colorPrimary"/>
+        app:titleTextColor="#fff"
+        android:background="@color/darkGray"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

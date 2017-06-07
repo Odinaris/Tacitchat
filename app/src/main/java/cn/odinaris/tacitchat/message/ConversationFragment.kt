@@ -31,7 +31,7 @@ class ConversationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         srl_conversation.isEnabled = true
         rv_conversation_list.layoutManager = LinearLayoutManager(context)
-        rv_conversation_list.addItemDecoration(LCIMDividerItemDecoration(context))
+        //rv_conversation_list.addItemDecoration(LCIMDividerItemDecoration(context))
         rv_conversation_list.adapter = itemAdapter
         EventBus.getDefault().register(this)
     }
@@ -67,7 +67,7 @@ class ConversationFragment : Fragment() {
         val conversationList = ArrayList<AVIMConversation>()
         val var3 = convIdList.iterator()
         while (var3.hasNext()) { conversationList.add(LCChatKit.getInstance().client.getConversation(var3.next())) }
-        this.itemAdapter.setDataList(conversationList)
+        this.itemAdapter.dataList = conversationList
         this.itemAdapter.notifyDataSetChanged()
     }
 

@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
-import android.view.Window
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.contacts.ContactsFragment
 import cn.odinaris.tacitchat.message.ConversationFragment
@@ -19,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.act_main)
         initView()
         initOnClickListener()
