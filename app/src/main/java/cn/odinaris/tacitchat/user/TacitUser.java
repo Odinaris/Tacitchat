@@ -1,9 +1,10 @@
 package cn.odinaris.tacitchat.user;
 
 
+import android.os.Parcelable;
+
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVGeoPoint;
 import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
-public class TacitUser extends AVUser {
+public class TacitUser extends AVUser implements Parcelable{
 
   public static final String USERNAME = "username";
   public static final String AVATAR = "avatar";
@@ -34,7 +35,7 @@ public class TacitUser extends AVUser {
     if (avatar != null) {
       return avatar.getUrl();
     } else {
-      return null;
+      return "";
     }
   }
 

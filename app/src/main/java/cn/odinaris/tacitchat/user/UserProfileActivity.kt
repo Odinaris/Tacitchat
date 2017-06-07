@@ -12,6 +12,7 @@ import cn.odinaris.tacitchat.message.ChatActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.act_user_profile.*
 import com.avos.avoscloud.AVException
+import com.avos.avoscloud.AVUser
 import com.avos.avoscloud.FollowCallback
 
 class UserProfileActivity : AppCompatActivity() {

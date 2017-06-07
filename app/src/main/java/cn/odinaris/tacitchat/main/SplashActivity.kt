@@ -44,8 +44,8 @@ class SplashActivity : Activity() {
         iv_welcome.setImageBitmap(bmp)
         if (TacitChatUser.currentUser != null) {
             TacitChatUser.currentUser.updateUserInfo()
-            handler.sendEmptyMessageDelayed(GO_MAIN_MSG, SPLASH_DURATION.toLong())
-        } else {
+            handler.sendEmptyMessageDelayed(GO_MAIN_MSG, SPLASH_DURATION.toLong()) }
+        else {
             handler.sendEmptyMessageDelayed(GO_LOGIN_MSG, SPLASH_DURATION.toLong())
         }
     }
