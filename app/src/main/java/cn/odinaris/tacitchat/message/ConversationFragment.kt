@@ -31,7 +31,6 @@ class ConversationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         srl_conversation.isEnabled = true
         rv_conversation_list.layoutManager = LinearLayoutManager(context)
-        //rv_conversation_list.addItemDecoration(LCIMDividerItemDecoration(context))
         rv_conversation_list.adapter = itemAdapter
         EventBus.getDefault().register(this)
     }

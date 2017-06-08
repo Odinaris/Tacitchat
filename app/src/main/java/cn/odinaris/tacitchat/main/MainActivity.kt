@@ -25,12 +25,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        //初始化BottomNavigationBar
-        initBottomNavigationBar()
-        //初始化ViewPager
-        initViewPager()
+        initBottomNavigationBar()//初始化BottomNavigationBar
+        initViewPager()//初始化ViewPager
     }
 
+    //初始化BottomNavigationBar
     private fun initBottomNavigationBar() {
         bnb_navigator
                 .addItem(BottomNavigationItem(R.drawable.ic_message,"消息"))
@@ -48,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    //初始化ViewPager
     private fun initViewPager() {
         fragments.add(0,ConversationFragment())
         fragments.add(1,ContactsFragment())

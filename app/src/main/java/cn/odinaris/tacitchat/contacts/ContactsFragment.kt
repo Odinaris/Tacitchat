@@ -39,6 +39,9 @@ class ContactsFragment : Fragment() {
     }
 
     private fun initView() {
+        ll_add_friends.setOnClickListener {
+            startActivity(Intent(activity,ContactAddFriendActivity::class.java))
+        }
         contactsAdapter = ContactsAdapter(context)
         contactsAdapter?.setOnItemClickListener(object:ContactsAdapter.onItemClickListener{
             override fun onItemClick(view: View, position: Int) {
@@ -64,16 +67,6 @@ class ContactsFragment : Fragment() {
                         }).setNegativeButton("取消", null).show()
             }
         })
-        val toolbar = tb_contacts as Toolbar
-        toolbar.inflateMenu(R.menu.contacts_menu)
-        toolbar.setOnMenuItemClickListener { item ->
-            when(item.itemId){
-                R.id.add -> { startActivity(Intent(activity,ContactAddFriendActivity::class.java)) }
-                else -> { }
-            }
-            true
-        }
-
         rv_contacts.adapter = contactsAdapter
         rv_contacts.layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
         srl_contacts.setOnRefreshListener { getMembers(true) }
@@ -81,9 +74,9 @@ class ContactsFragment : Fragment() {
 
     private fun updateNewRequestBadge() {
         if(AddRequestManager.instance.hasUnreadRequests()){
-            item_new_request.iv_tips.visibility = View.VISIBLE
+            iv_tips.visibility = View.VISIBLE
         }else{
-            item_new_request.iv_tips.visibility = View.GONE
+            iv_tips.visibility = View.GONE
         }
     }
 
