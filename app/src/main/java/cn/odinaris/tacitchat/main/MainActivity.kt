@@ -3,7 +3,7 @@ package cn.odinaris.tacitchat.main
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
+import android.support.v4.view.ViewPager
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.contacts.ContactsFragment
 import cn.odinaris.tacitchat.message.ConversationFragment
@@ -16,68 +16,52 @@ import kotlinx.android.synthetic.main.act_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val fragments = ArrayList<Fragment>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.act_main)
         initView()
-        initOnClickListener()
     }
 
     private fun initView() {
+        //初始化BottomNavigationBar
+        initBottomNavigationBar()
+        //初始化ViewPager
+        initViewPager()
+    }
+
+    private fun initBottomNavigationBar() {
         bnb_navigator
                 .addItem(BottomNavigationItem(R.drawable.ic_message,"消息"))
                 .addItem(BottomNavigationItem(R.drawable.ic_friends,"联系人"))
                 .addItem(BottomNavigationItem(R.drawable.ic_mine,"我"))
                 .setFirstSelectedPosition(0).initialise()
-        setDefaultFragment()
-    }
-
-    private fun setDefaultFragment() {
-        val SFM = supportFragmentManager!!
-        val transaction = SFM.beginTransaction()!!
-        transaction.add(R.id.ll_container, ConversationFragment())
-        transaction.commit()
-        bnb_navigator.setFirstSelectedPosition(0)
-    }
-
-    private fun initOnClickListener() {
-
         bnb_navigator.setTabSelectedListener(object: BottomNavigationBar.OnTabSelectedListener {
             override fun onTabReselected(position: Int) { }
 
             override fun onTabUnselected(position: Int) { }
 
             override fun onTabSelected(position: Int) {
-                val SFM = supportFragmentManager!!
-                val transaction = SFM.beginTransaction()!!
-                hideAllFragments(transaction)
-                when(position){
-                    0 -> {
-                        if(ConversationFragment().isAdded) transaction.show(ConversationFragment())
-                        else{
-                            transaction.add(R.id.ll_container, ConversationFragment()).show(ConversationFragment())
-                        }
-                    }
-                    1 -> {
-                        if(ContactsFragment().isAdded) transaction.show(ContactsFragment())
-                        else{
-                            transaction.add(R.id.ll_container, ContactsFragment()).show(ContactsFragment())
-                        }
-                    }
-                    2 -> {
-                        if(UserFragment().isAdded) transaction.show(UserFragment())
-                        else{
-                            transaction.add(R.id.ll_container, UserFragment()).show(UserFragment())
-                        }
-                    }
-                }
-                transaction.commit()
+                vp_container.currentItem = position
             }
         })
     }
 
-    //隐藏所有Fragment
-    private fun  hideAllFragments(transaction: FragmentTransaction) {
-        for (i : Fragment in supportFragmentManager.fragments){ transaction.hide(i) }
+    private fun initViewPager() {
+        fragments.add(0,ConversationFragment())
+        fragments.add(1,ContactsFragment())
+        fragments.add(2,UserFragment())
+        vp_container.adapter = SectionAdapter(supportFragmentManager,fragments)
+        vp_container.currentItem = 0
+        vp_container.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                bnb_navigator.selectTab(position)
+            }
+        })
     }
 }
