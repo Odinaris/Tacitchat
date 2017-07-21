@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class TacitUser extends AVUser implements Parcelable{
 
   public static final String USERNAME = "username";
-  public static final String AVATAR = "avatar";
-  public static final String INSTALLATION = "installation";
+  private static final String AVATAR = "avatar";
+  private static final String INSTALLATION = "installation";
 
   public static String getCurrentUserId () {
     TacitUser currentUser = getCurrentUser(TacitUser.class);
@@ -80,6 +80,7 @@ public class TacitUser extends AVUser implements Parcelable{
     user.setUsername(name);
     user.setPassword(password);
     user.signUpInBackground(callback);
+    // Todo 设置默认头像文件
   }
 
   public void removeFriend(String friendId, final SaveCallback saveCallback) {
@@ -98,8 +99,9 @@ public class TacitUser extends AVUser implements Parcelable{
     AVQuery<TacitUser> q = null;
     try {
       q = followeeQuery(TacitUser.class);
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
+    assert q != null;
     q.setCachePolicy(cachePolicy);
     q.setMaxCacheAge(TimeUnit.MINUTES.toMillis(1));
     q.findInBackground(findCallback);

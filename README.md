@@ -13,6 +13,8 @@ The Information Hiding, End to End Encryption and Image Encryption features will
 - [ ] 优化聊天气泡样式
 - [ ] 可视化嵌入提取进度状态
 - [ ] 联系人列表参考微信布局
+- [ ] 多颜色主题
+- [ ] 设计Low poly风格犀牛logo
 
 ## Problems
 - Intent间传递对象时强制转换的对象类型与之前不同。（TacitUser转换成AVUser）

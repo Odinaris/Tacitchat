@@ -61,7 +61,6 @@ class ChatActivity : AppCompatActivity() {
                     this.finish()
                 }
             }
-
         }
     }
 
@@ -69,9 +68,8 @@ class ChatActivity : AppCompatActivity() {
         if (16908332 == item.itemId) {
             this.onBackPressed()
             return true
-        } else {
-            return super.onOptionsItemSelected(item)
         }
+        else { return super.onOptionsItemSelected(item) }
     }
 
     fun updateConversation(conversation: AVIMConversation?) {
@@ -80,11 +78,8 @@ class ChatActivity : AppCompatActivity() {
             LCIMConversationItemCache.getInstance().clearUnread(conversation.conversationId)
             LCIMConversationUtils.getConversationName(conversation, object : AVCallback<String>() {
                 override fun internalDone0(s: String, e: AVException?) {
-                    if (null != e) {
-                        LCIMLogUtils.logException(e)
-                    } else {
-                        tb_conversation_username.title = s
-                    }
+                    if (null != e) { LCIMLogUtils.logException(e) }
+                    else { tb_conversation_username.title = s }
                 }
             })
         }

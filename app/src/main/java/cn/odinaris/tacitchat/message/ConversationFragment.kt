@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import cn.leancloud.chatkit.LCChatKit
 import cn.odinaris.tacitchat.R
-import cn.leancloud.chatkit.cache.LCIMConversationItemCache
-import cn.leancloud.chatkit.event.LCIMConversationItemLongClickEvent
-import cn.leancloud.chatkit.event.LCIMIMTypeMessageEvent
-import cn.leancloud.chatkit.event.LCIMOfflineMessageCountChangeEvent
-import cn.leancloud.chatkit.view.LCIMDividerItemDecoration
+import cn.odinaris.tacitchat.cache.ConversationItemCache
+import cn.odinaris.tacitchat.event.ConversationItemLongClickEvent
+import cn.odinaris.tacitchat.event.OfflineMessageCountChangeEvent
+import cn.odinaris.tacitchat.event.TypeMessageEvent
 import cn.odinaris.tacitchat.message.viewholder.ConversationItemHolder
 import com.avos.avoscloud.im.v2.AVIMConversation
 import de.greenrobot.event.EventBus
@@ -30,7 +29,7 @@ class ConversationFragment : Fragment() {
     override fun onViewCreated(view: View,savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
         srl_conversation.isEnabled = true
-        rv_conversation_list.layoutManager = LinearLayoutManager(context)
+        rv_conversation_list.layoutManager = LinearLayoutManager(activity)
         rv_conversation_list.adapter = itemAdapter
         EventBus.getDefault().register(this)
     }
@@ -50,19 +49,17 @@ class ConversationFragment : Fragment() {
         EventBus.getDefault().unregister(this)
     }
 
-    fun onEvent(event: LCIMIMTypeMessageEvent) { this.updateConversationList() }
+    fun onEvent(event: TypeMessageEvent) { this.updateConversationList() }
 
-    fun onEvent(event: LCIMConversationItemLongClickEvent) {
-        if (null != event.conversation) {
-            val conversationId = event.conversation.conversationId
-            LCIMConversationItemCache.getInstance().deleteConversation(conversationId)
-            this.updateConversationList()
-        }
-
+    fun onEvent(event: ConversationItemLongClickEvent) {
+        val conversationId = event.conversation.conversationId
+        ConversationItemCache.instance.deleteConversation(conversationId)
+        this.updateConversationList()
+        //if (null != event.conversation) { }
     }
 
     private fun updateConversationList() {
-        val convIdList = LCIMConversationItemCache.getInstance().sortedConversationList
+        val convIdList = ConversationItemCache.instance.sortedConversationList
         val conversationList = ArrayList<AVIMConversation>()
         val var3 = convIdList.iterator()
         while (var3.hasNext()) { conversationList.add(LCChatKit.getInstance().client.getConversation(var3.next())) }
@@ -70,5 +67,5 @@ class ConversationFragment : Fragment() {
         this.itemAdapter.notifyDataSetChanged()
     }
 
-    fun onEvent(updateEvent: LCIMOfflineMessageCountChangeEvent) { this.updateConversationList() }
+    fun onEvent(updateEvent: OfflineMessageCountChangeEvent) { this.updateConversationList() }
 }

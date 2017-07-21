@@ -18,28 +18,16 @@ import cn.odinaris.tacitchat.utils.SimpleNetTask
 
 internal class AddRequestManager {
 
-    /**
-     * 用户端未读的邀请消息的数量
-     */
+    /** 用户端未读的邀请消息的数量 */
     private var unreadAddRequestsCount = 0
 
-    /**
-     * 是否有未读的消息
-     */
-    fun hasUnreadRequests(): Boolean {
-        return unreadAddRequestsCount > 0
-    }
+    /** 是否有未读的消息*/
+    fun hasUnreadRequests(): Boolean { return unreadAddRequestsCount > 0 }
 
-    /**
-     * 推送过来时自增
-     */
-    fun unreadRequestsIncrement() {
-        ++unreadAddRequestsCount
-    }
+    /** 推送过来时自增*/
+    fun unreadRequestsIncrement() { ++unreadAddRequestsCount }
 
-    /**
-     * 从 server 获取未读消息的数量
-     */
+    /** 从 server 获取未读消息的数量*/
     fun countUnreadRequests(countCallback: CountCallback?) {
         val addRequestAVQuery = AVObject.getQuery(AddRequest::class.java)
         addRequestAVQuery.cachePolicy = AVQuery.CachePolicy.NETWORK_ONLY
@@ -55,19 +43,13 @@ internal class AddRequestManager {
         })
     }
 
-    /**
-     * 标记消息为已读，标记完后会刷新未读消息数量
-     */
+    /** 标记消息为已读，标记完后会刷新未读消息数量*/
     fun markAddRequestsRead(addRequestList: List<AddRequest>?) {
         if (addRequestList != null) {
-            for (request in addRequestList) {
-                request.put(AddRequest.IS_READ, true)
-            }
+            for (request in addRequestList) { request.put(AddRequest.IS_READ, true) }
             AVObject.saveAllInBackground(addRequestList, object : SaveCallback() {
                 override fun done(e: AVException?) {
-                    if (e == null) {
-                        countUnreadRequests(null)
-                    }
+                    if (e == null) { countUnreadRequests(null) }
                 }
             })
         }
@@ -92,9 +74,8 @@ internal class AddRequestManager {
                     if (e.code == AVException.DUPLICATE_VALUE) {
                         addRequest.status = AddRequest.STATUS_DONE
                         addRequest.saveInBackground(saveCallback)
-                    } else {
-                        saveCallback.done(e)
                     }
+                    else { saveCallback.done(e) }
                 } else {
                     addRequest.status = AddRequest.STATUS_DONE
                     addRequest.saveInBackground(saveCallback)
@@ -130,7 +111,7 @@ internal class AddRequestManager {
             add.fromUser = curUser
             add.toUser = toUser
             add.status = AddRequest.STATUS_WAIT
-            add.setIsRead(false)
+            add.isRead = false
             add.save()
         }
     }
