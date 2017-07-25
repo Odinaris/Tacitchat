@@ -21,13 +21,20 @@
             android:textSize="16sp"
             android:textColor="@color/darkBlack"
             android:paddingStart="8sp"/>
-        <ImageView
+        <Button
             android:id="@+id/tib_send"
-            android:layout_width="40sp"
+            android:layout_width="60sp"
             android:layout_height="40sp"
-            android:src="@drawable/color_send"
-            android:layout_marginStart="8sp"
-            />
+            android:text="发送"
+            android:backgroundTint="@color/darkBlack"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/tib_send"-->
+            <!--android:layout_width="40sp"-->
+            <!--android:layout_height="40sp"-->
+            <!--android:src="@drawable/ic_input_send"-->
+            <!--android:layout_marginStart="8sp"-->
+            <!--android:visibility="gone"-->
+            <!--/>-->
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,47 +42,47 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_margin="4sp">
-        <ImageView
-            android:id="@+id/tib_voice"
-            android:layout_width="0sp"
-            android:layout_height="40sp"
-            android:layout_weight="1"
-            android:src="@drawable/color_voice"
-            android:scaleType="centerInside"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/tib_voice"-->
+            <!--android:layout_width="0sp"-->
+            <!--android:layout_height="40sp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@drawable/color_voice"-->
+            <!--android:scaleType="centerInside"/>-->
         <ImageView
             android:id="@+id/tib_image"
             android:layout_width="0sp"
-            android:layout_height="40sp"
+            android:layout_height="30sp"
             android:layout_weight="1"
-            android:src="@drawable/color_image"
+            android:src="@drawable/ic_input_image"
             android:scaleType="centerInside"/>
         <ImageView
             android:id="@+id/tib_camera"
             android:layout_width="0sp"
-            android:layout_height="40sp"
+            android:layout_height="30sp"
             android:layout_weight="1"
-            android:src="@drawable/color_camera"
+            android:src="@drawable/ic_input_camera"
             android:scaleType="centerInside"/>
         <ImageView
             android:id="@+id/tib_file"
             android:layout_width="0sp"
-            android:layout_height="40sp"
+            android:layout_height="30sp"
             android:layout_weight="1"
-            android:src="@drawable/color_file"
+            android:src="@drawable/ic_input_file"
             android:scaleType="centerInside"/>
-        <ImageView
-            android:id="@+id/tib_fire"
-            android:layout_width="0sp"
-            android:layout_height="40sp"
-            android:layout_weight="1"
-            android:src="@drawable/color_fire"
-            android:scaleType="centerInside" />
+        <!--<ImageView-->
+            <!--android:id="@+id/tib_fire"-->
+            <!--android:layout_width="0sp"-->
+            <!--android:layout_height="40sp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@drawable/color_fire"-->
+            <!--android:scaleType="centerInside" />-->
         <ImageView
             android:id="@+id/tib_embed"
             android:layout_width="0sp"
-            android:layout_height="40sp"
+            android:layout_height="26sp"
             android:layout_weight="1"
-            android:src="@drawable/color_embed"
+            android:src="@drawable/ic_input_lock"
             android:scaleType="centerInside"/>
     </LinearLayout>
     <!--在聊天界面选择图片-->

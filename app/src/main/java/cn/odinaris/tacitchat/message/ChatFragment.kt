@@ -50,11 +50,17 @@ import cn.odinaris.tacitchat.utils.CodeUtils
 import cn.odinaris.tacitchat.utils.ImageUtils
 import cn.odinaris.tacitchat.utils.PathUtils
 import cn.odinaris.tacitchat.view.TacitInputBar
+import com.leon.lfilepickerlibrary.LFilePicker
+import com.leon.lfilepickerlibrary.filter.LFileFilter
+import com.vincent.filepicker.Constant
+import com.vincent.filepicker.activity.NormalFilePickActivity
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import com.zhihu.matisse.filter.Filter
 import de.greenrobot.event.EventBus
+import droidninja.filepicker.FilePickerBuilder
+import droidninja.filepicker.FilePickerConst
 import kotlinx.android.synthetic.main.bar_input.*
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -71,6 +77,7 @@ class ChatFragment : Fragment() {
     val RESULT_PICK_CAMERA = 2      //打开相机进行拍照
     val RESULT_PICK_IMAGE = 3       //选择本地图片(相册/拍照)
     val RESULT_EMBED_IMAGE = 4      //嵌入信息
+    val RESULT_PICK_FILE = 5        //选择文件
     var cover: Bitmap? = null
     var stego: Bitmap? = null
     var coverPath: String = ""
@@ -261,7 +268,20 @@ class ChatFragment : Fragment() {
 
     private fun sendFile() {
         // Todo 点击文件按钮，跳转到文件列表，列出常用文件类型，文件名，文件大小，选择之后跳转回来发送，若已选择载体文件，则嵌入文件到图像
-        toast("发送文件!")
+        val doc = arrayOf("doc", "docx")
+        val xls = arrayOf("xlsx", "xls")
+        val ppt = arrayOf("ppt", "pptx")
+        val pdf = arrayOf("pdf")
+        val txt = arrayOf("txt")
+        FilePickerBuilder.getInstance().setMaxCount(1)
+                .addFileSupport("DOC", doc, R.drawable.filetype_doc)
+                .addFileSupport("PPT", ppt, R.drawable.filetype_ppt)
+                .addFileSupport("XLS", xls, R.drawable.filetype_elx)
+                .addFileSupport("PDF", pdf, R.drawable.filetype_pdf)
+                .addFileSupport("TXT", txt, R.drawable.filetype_txt)
+                .setActivityTheme(R.style.TacitNoActionBar)
+                .enableDocSupport(false)
+                .pickFile(this)
     }
 
     private fun fireMessage() { toast("阅后即焚!") }
@@ -372,7 +392,6 @@ class ChatFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        toast("requestCode" + requestCode.toString()+"resultCode" + resultCode.toString())
         if (-1 == resultCode) {
             if(data != null){
                 when (requestCode) {
@@ -381,17 +400,30 @@ class ChatFragment : Fragment() {
                         Log.e("Matisse - imagePath",Matisse.obtainResult(data)[0].toString())
                         this.sendImage(this.getRealPathFromURI(this.activity, Matisse.obtainResult(data)[0]))
                     }
-                    RESULT_PICK_CAMERA -> this.sendImage(this.localCameraPath)
-                    RESULT_PICK_IMAGE ->{
+                    RESULT_PICK_IMAGE -> {
                         this.showCoverImage(Matisse.obtainResult(data)[0])
                         //嵌入文本信息时
                         //startImageCrop(uri, 200, 200, CROP_REQUEST)
                     }
+                    RESULT_PICK_FILE -> {
+                        val list = data.getStringArrayListExtra("paths")
+                        toast("选中了"+list.size + "个文件")
+                    }
+                    FilePickerConst.REQUEST_CODE_DOC -> {
+                        val docPaths = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)
+                        toast("选中了"+docPaths.size + "个文件")
+                    }
+                }
+            }else{
+                if (requestCode == RESULT_PICK_CAMERA){
+                    toast(this.localCameraPath!!)
+                    this.sendImage(this.localCameraPath+".png")
                 }
             }
         }
     }
 
+    // 显示载体图像
     private fun showCoverImage(data: Uri) {
         ll_placeholder.visibility = View.GONE
         val file = ImageUtils.switchUri2File(activity, data)
@@ -409,6 +441,7 @@ class ChatFragment : Fragment() {
         ll_embed.visibility = VISIBLE
     }
 
+    // 嵌入信息
     private fun embedSecretInfo(secretBits: String, cover: Bitmap?) {
         stego = cover
         val secretLength = Integer.toBinaryString(secretBits.length)

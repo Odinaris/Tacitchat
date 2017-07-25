@@ -51,14 +51,14 @@
         </activity>
         //应用主页面
         <activity android:name=".main.MainActivity"
-            android:theme="@style/TacitTheme.NoActionBar"
+            android:theme="@style/TacitNoActionBar"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".login.RegisterActivity" />
         <activity android:name=".contacts.ContactAddFriendActivity" />
         <activity
-            android:theme="@style/TacitTheme.NoActionBar"
+            android:theme="@style/TacitNoActionBar"
             android:name=".user.UserProfileActivity" />
         <activity
             android:theme="@style/TacitTheme"
