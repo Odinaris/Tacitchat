@@ -14,12 +14,12 @@
         android:layout_height="90sp"
         android:orientation="horizontal"
         android:layout_marginBottom="16sp"
-        android:background="#fff">
+        android:background="#fff"
+        android:gravity="center_vertical">
         <cn.odinaris.tacitchat.view.RoundImageView
             android:id="@+id/iv_user_avatar"
-            android:layout_width="90sp"
-            android:layout_height="90sp"
-            android:padding="12sp"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
             android:scaleType="centerCrop"/>
         <TextView
             android:id="@+id/tv_username"
@@ -30,6 +30,7 @@
             android:gravity="center_vertical"
             android:paddingStart="8sp"/>
     </LinearLayout>
+
     <Button
         android:id="@+id/btn_update_avatar"
         android:layout_width="match_parent"
@@ -38,6 +39,7 @@
         android:textColor="#fff"
         android:background="@color/darkBlack"
         android:layout_margin="8sp"/>
+
     <Button
         android:id="@+id/btn_embed"
         android:layout_width="match_parent"

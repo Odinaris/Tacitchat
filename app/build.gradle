@@ -52,7 +52,7 @@ dependencies {
     compile 'cn.leancloud.android:avoscloud-sns:v3.+@aar'
     compile 'cn.leancloud.android:qq-sdk:1.6.1-leancloud'
     compile 'cn.leancloud.android:avoscloud-search:v3.+@aar'
-    compile('cn.leancloud.android:chatkit:1.0.7')
+    compile 'cn.leancloud.android:chatkit:1.0.7'
     compile 'com.zhihu.android:matisse:0.4.3'
     testCompile 'junit:junit:4.12'
 }

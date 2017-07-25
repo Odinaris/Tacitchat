@@ -2,10 +2,12 @@ package cn.odinaris.tacitchat.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
+import android.support.v4.app.Fragment
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -44,5 +46,25 @@ object ImageUtils{
         actualImageCursor.moveToFirst()
         val img_path = actualImageCursor.getString(actualImageColumnIndex)
         return File(img_path)
+    }
+
+    // 图像裁剪
+    fun startImageCrop(uri: Uri, outputX: Int, outputY: Int, requestCode: Int, fragment: Fragment): Uri {
+        val intent = Intent("com.android.camera.action.CROP")
+        intent.setDataAndType(uri, "image/*")
+        intent.putExtra("crop", "true")
+        intent.putExtra("aspectX", 1)
+        intent.putExtra("aspectY", 1)
+        intent.putExtra("outputX", outputX)
+        intent.putExtra("outputY", outputY)
+        intent.putExtra("scale", true)
+        val outputPath = PathUtils.avatarTmpPath()
+        val outputUri = Uri.fromFile(File(outputPath))
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri)
+        intent.putExtra("return-data", true)
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
+        intent.putExtra("noFaceDetection", false) // face detection
+        fragment.startActivityForResult(intent, requestCode)
+        return outputUri
     }
 }

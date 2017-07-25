@@ -3,6 +3,7 @@ package cn.odinaris.tacitchat.message
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -49,6 +50,10 @@ import cn.odinaris.tacitchat.utils.CodeUtils
 import cn.odinaris.tacitchat.utils.ImageUtils
 import cn.odinaris.tacitchat.utils.PathUtils
 import cn.odinaris.tacitchat.view.TacitInputBar
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.engine.impl.GlideEngine
+import com.zhihu.matisse.filter.Filter
 import de.greenrobot.event.EventBus
 import kotlinx.android.synthetic.main.bar_input.*
 import java.io.FileNotFoundException
@@ -76,7 +81,7 @@ class ChatFragment : Fragment() {
         this.refreshLayout = view.findViewById(R.id.srl_chat) as SwipeRefreshLayout
         this.refreshLayout?.isEnabled = false
         this.inputBar = view.findViewById(R.id.tib_input_bar) as TacitInputBar
-        this.layoutManager = LinearLayoutManager(this.activity)
+        this.layoutManager = LinearLayoutManager(activity)
         this.recyclerView?.layoutManager = this.layoutManager
         this.itemAdapter = this.adapter
         this.itemAdapter?.resetRecycledViewPoolSize(this.recyclerView)
@@ -214,10 +219,18 @@ class ChatFragment : Fragment() {
 
     fun onEvent(event: SelectImageEvent?){
         if(null != event){
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(intent, RESULT_PICK_IMAGE)
+//            val intent = Intent()
+//            intent.type = "image/*"
+//            intent.action = Intent.ACTION_GET_CONTENT
+//            startActivityForResult(intent, RESULT_PICK_IMAGE)
+            Matisse.from(this)
+                    .choose(MimeType.allOf())
+                    .countable(true)
+                    .maxSelectable(1)
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(GlideEngine()).theme(R.style.Matisse_Dracula)
+                    .forResult(RESULT_PICK_IMAGE)
         }
     }
 
@@ -267,9 +280,14 @@ class ChatFragment : Fragment() {
 
     //跳转相册
     private fun dispatchPickPictureIntent() {
-        val photoPickerIntent = Intent("android.intent.action.PICK", null as Uri?)
-        photoPickerIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-        this.startActivityForResult(photoPickerIntent, RESULT_PICK_GALLERY)
+        Matisse.from(this)
+        .choose(MimeType.allOf())
+        .countable(true)
+        .maxSelectable(1)
+        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+        .thumbnailScale(0.85f)
+        .imageEngine(GlideEngine()).theme(R.style.Matisse_Dracula)
+        .forResult(RESULT_PICK_GALLERY)
     }
 
     private fun scrollToBottom() {
@@ -354,13 +372,18 @@ class ChatFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        toast("requestCode" + requestCode.toString()+"resultCode" + resultCode.toString())
         if (-1 == resultCode) {
             if(data != null){
                 when (requestCode) {
-                    RESULT_PICK_GALLERY -> this.sendImage(this.getRealPathFromURI(this.activity, data.data))
+                    RESULT_PICK_GALLERY -> {
+                        toast(Matisse.obtainResult(data)[0].toString())
+                        Log.e("Matisse - imagePath",Matisse.obtainResult(data)[0].toString())
+                        this.sendImage(this.getRealPathFromURI(this.activity, Matisse.obtainResult(data)[0]))
+                    }
                     RESULT_PICK_CAMERA -> this.sendImage(this.localCameraPath)
                     RESULT_PICK_IMAGE ->{
-                        this.showCoverImage(data.data)
+                        this.showCoverImage(Matisse.obtainResult(data)[0])
                         //嵌入文本信息时
                         //startImageCrop(uri, 200, 200, CROP_REQUEST)
                     }
@@ -384,25 +407,6 @@ class ChatFragment : Fragment() {
         iv_select.setImageBitmap(cover)
         iv_select.visibility = View.VISIBLE
         ll_embed.visibility = VISIBLE
-    }
-
-    fun startImageCrop(uri: Uri, outputX: Int, outputY: Int, requestCode: Int): Uri {
-        val intent = Intent("com.android.camera.action.CROP")
-        intent.setDataAndType(uri, "image/*")
-        intent.putExtra("crop", "true")
-        intent.putExtra("aspectX", 1)
-        intent.putExtra("aspectY", 1)
-        intent.putExtra("outputX", outputX)
-        intent.putExtra("outputY", outputY)
-        intent.putExtra("scale", true)
-        val outputPath = PathUtils.avatarTmpPath()
-        val outputUri = Uri.fromFile(File(outputPath))
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri)
-        intent.putExtra("return-data", true)
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
-        intent.putExtra("noFaceDetection", false) // face detection
-        startActivityForResult(intent, requestCode)
-        return outputUri
     }
 
     private fun embedSecretInfo(secretBits: String, cover: Bitmap?) {
@@ -465,6 +469,7 @@ class ChatFragment : Fragment() {
             }
         }
     }
+
 
     inner class EmbedAsyncTask: AsyncTask<Void, Int, Int>(){
         override fun doInBackground(vararg bmp: Void): Int {
