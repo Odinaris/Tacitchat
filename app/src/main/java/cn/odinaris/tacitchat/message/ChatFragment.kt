@@ -1,5 +1,6 @@
 package cn.odinaris.tacitchat.message
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -15,6 +16,8 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -42,6 +45,7 @@ import cn.leancloud.chatkit.utils.LCIMNotificationUtils
 import cn.leancloud.chatkit.utils.LCIMPathUtils
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.event.*
+import cn.odinaris.tacitchat.utils.CodeUtils
 import cn.odinaris.tacitchat.utils.ImageUtils
 import cn.odinaris.tacitchat.utils.PathUtils
 import cn.odinaris.tacitchat.view.TacitInputBar
@@ -156,7 +160,6 @@ class ChatFragment : Fragment() {
     //发送文字事件
     fun onEvent(textEvent: TacitInputBarTextEvent?) {
         if (null != this.imConversation && null != textEvent && !TextUtils.isEmpty(textEvent.sendContent) && this.imConversation!!.conversationId == textEvent.tag) {
-            //Todo 加密信息
             this.sendText(textEvent.sendContent)
         }
     }
@@ -185,9 +188,28 @@ class ChatFragment : Fragment() {
                 1 -> this.dispatchTakePictureIntent()
                 4 -> this.sendFile()                    //发送文件
                 5 -> this.fireMessage()                 //阅后即焚
-                6 -> toggleEmbedLayout()   //选择图片进行嵌入
+                6 -> {
+                    if(ll_embed.visibility == GONE){
+                        // 如果嵌入布局隐藏，则点击嵌入进入选择图像界面
+                        val intent = Intent()
+                        intent.type = "image/*"
+                        intent.action = Intent.ACTION_GET_CONTENT
+                        startActivityForResult(intent, RESULT_PICK_IMAGE)
+                    }else{
+                        //初始化嵌入布局
+                        initEmbedLayout()
+                        tib_input.setText("")
+                    }
+                }
             }
         }
+    }
+
+    private fun initEmbedLayout() {
+        // 如果嵌入布局显示，则点击嵌入取消嵌入操作
+        ll_embed.visibility = GONE
+        ll_placeholder.visibility = View.VISIBLE
+        iv_select.visibility = View.GONE
     }
 
     fun onEvent(event: SelectImageEvent?){
@@ -200,10 +222,11 @@ class ChatFragment : Fragment() {
     }
 
     fun onEvent(event: EmbedEvent?){
-        if(null != event && !et_key.text.isEmpty() && !et_secret.text.isEmpty()){ EmbedAsyncTask().execute() }
+        if(null != event ){ EmbedAsyncTask().execute() }
     }
 
     //切换嵌入布局的显示隐藏
+    // Todo 嵌入布局显示隐藏增加过渡效果
     private fun toggleEmbedLayout() { ll_embed.visibility = if(ll_embed.visibility == VISIBLE) GONE else VISIBLE }
 
     //发送语音
@@ -223,7 +246,10 @@ class ChatFragment : Fragment() {
         startActivityForResult(intent, RESULT_PICK_IMAGE)
     }
 
-    private fun sendFile() { toast("发送文件!") }
+    private fun sendFile() {
+        // Todo 点击文件按钮，跳转到文件列表，列出常用文件类型，文件名，文件大小，选择之后跳转回来发送，若已选择载体文件，则嵌入文件到图像
+        toast("发送文件!")
+    }
 
     private fun fireMessage() { toast("阅后即焚!") }
 
@@ -302,6 +328,12 @@ class ChatFragment : Fragment() {
         if (addToList) { this.itemAdapter?.addMessage(message) }
         this.itemAdapter?.notifyDataSetChanged()
         this.scrollToBottom()
+        if(message is AVIMTextMessage){
+            // Todo 加密信息
+            Log.e("before encrypt", message.text)
+            message.text = String(Base64.encode(message.text.toByteArray(), Base64.DEFAULT))
+            Log.e("after encrypt", message.text)
+        }
         this.imConversation!!.sendMessage(message, object : AVIMConversationCallback() {
             override fun done(e: AVIMException?) {
                 this@ChatFragment.itemAdapter?.notifyDataSetChanged()
@@ -351,6 +383,7 @@ class ChatFragment : Fragment() {
         ll_placeholder.visibility = View.GONE
         iv_select.setImageBitmap(cover)
         iv_select.visibility = View.VISIBLE
+        ll_embed.visibility = VISIBLE
     }
 
     fun startImageCrop(uri: Uri, outputX: Int, outputY: Int, requestCode: Int): Uri {
@@ -435,7 +468,7 @@ class ChatFragment : Fragment() {
 
     inner class EmbedAsyncTask: AsyncTask<Void, Int, Int>(){
         override fun doInBackground(vararg bmp: Void): Int {
-            embedSecretInfo(et_secret.text.toString(),cover)
+            embedSecretInfo(CodeUtils.Str2BinStr(tib_input.text.toString()),cover)
             return 0
         }
         override fun onPostExecute(result: Int) {
@@ -457,14 +490,10 @@ class ChatFragment : Fragment() {
             val uri = Uri.fromFile(File(file.absolutePath))
             intent.data = uri
             activity.sendBroadcast(intent)//通知图库更新
-            Toast.makeText(context,"信息嵌入完成!已成功发送!",Toast.LENGTH_SHORT).show()
-            pb_loading.visibility = GONE
-            btn_send.isEnabled = true
+            //Toast.makeText(context,"信息嵌入完成!已成功发送!",Toast.LENGTH_SHORT).show()
+            initEmbedLayout()
             sendImage(file.absolutePath)
         }
-        override fun onPreExecute() {
-            pb_loading.visibility = VISIBLE
-            btn_send.isEnabled = false
-        }
+        override fun onPreExecute() {  }
     }
 }

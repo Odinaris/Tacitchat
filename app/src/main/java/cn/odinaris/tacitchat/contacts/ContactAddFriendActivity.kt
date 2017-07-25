@@ -37,9 +37,7 @@ class ContactAddFriendActivity : AppCompatActivity() {
                 return
             }
         }
-        else {
-            Toast.makeText(this,"与当前用户重名!",Toast.LENGTH_SHORT).show()
-        }
+        else { Toast.makeText(this,"与当前用户重名!",Toast.LENGTH_SHORT).show() }
     }
 
     private fun searchContact(name: String) {

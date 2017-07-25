@@ -19,6 +19,8 @@ import cn.odinaris.tacitchat.login.LoginActivity
 import cn.odinaris.tacitchat.service.PushManager
 import cn.odinaris.tacitchat.utils.PathUtils
 import cn.odinaris.tacitchat.utils.Utils
+import com.avos.avoscloud.AVException
+import com.avos.avoscloud.SaveCallback
 import com.avos.avoscloud.im.v2.AVIMClient
 import com.avos.avoscloud.im.v2.AVIMException
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback
@@ -58,14 +60,9 @@ class UserFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK, null)
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
             startActivityForResult(intent, IMAGE_PICK_REQUEST)
-
         }
-        btn_embed.setOnClickListener {
-            startActivity(Intent(activity,EmbedActivity::class.java))
-        }
-        btn_extract.setOnClickListener {
-            startActivity(Intent(activity,ExtractActivity::class.java))
-        }
+        btn_embed.setOnClickListener { startActivity(Intent(activity,EmbedActivity::class.java)) }
+        btn_extract.setOnClickListener { startActivity(Intent(activity,ExtractActivity::class.java)) }
     }
 
     private fun initData() { PathUtils.ctx = context }
@@ -80,7 +77,13 @@ class UserFragment : Fragment() {
                 } else if (requestCode == CROP_REQUEST) {
                     val path = saveCropAvatar(data)
                     val user = TacitUser.getCurrentUser()
-                    user.saveAvatar(path, null)
+                    //Todo 添加上传头像回调反馈
+                    user.saveAvatar(path, object:SaveCallback(){
+                        override fun done(p0: AVException?) {
+                            Glide.with(context).load(user.avatarUrl).into(iv_user_avatar)
+                            Toast.makeText(activity,"头像上传成功!",Toast.LENGTH_SHORT).show()
+                        }
+                    } )
                 }
             }
         }

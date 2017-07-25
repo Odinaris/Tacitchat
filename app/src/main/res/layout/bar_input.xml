@@ -84,15 +84,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:visibility="gone">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120sp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
             <ImageView
                 android:id="@+id/iv_select"
-                android:layout_width="120sp"
+                android:layout_width="match_parent"
                 android:layout_height="120sp"
+                android:scaleType="centerCrop"
                 android:visibility="gone"/>
             <LinearLayout
                 android:id="@+id/ll_placeholder"
@@ -115,48 +118,7 @@
                     android:textSize="14sp"
                     android:gravity="center"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <EditText
-                    android:id="@+id/et_secret"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="输入秘密信息"
-                    android:gravity="center"
-                    android:background="#fff"
-                    android:layout_margin="8sp"
-                    android:padding="8sp"/>
-            </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <EditText
-                android:id="@+id/et_key"
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="输入密钥"
-                android:gravity="center"
-                android:background="#fff"
-                android:layout_margin="8sp"
-                android:padding="8sp"/>
-            <ProgressBar
-                android:id="@+id/pb_loading"
-                android:layout_width="24sp"
-                android:layout_height="24sp"
-                android:visibility="gone"/>
-            <Button
-                android:id="@+id/btn_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="发送"
-                android:textColor="#fff"
-                android:backgroundTint="@color/darkBlack"/>
-        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

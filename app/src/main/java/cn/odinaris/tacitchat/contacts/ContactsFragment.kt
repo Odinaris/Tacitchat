@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,7 @@ import com.avos.avoscloud.AVException
 import com.avos.avoscloud.FindCallback
 import com.avos.avoscloud.SaveCallback
 import kotlinx.android.synthetic.main.frg_contacts.*
-import kotlinx.android.synthetic.main.item_new_request.view.*
+//import kotlinx.android.synthetic.main.item_new_request.view.*
 
 
 class ContactsFragment : Fragment() {
@@ -68,15 +66,16 @@ class ContactsFragment : Fragment() {
             }
         })
         rv_contacts.adapter = contactsAdapter
-        rv_contacts.layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
+        rv_contacts.layoutManager = LinearLayoutManager(context)
         srl_contacts.setOnRefreshListener { getMembers(true) }
     }
 
+    // 新好友请求
     private fun updateNewRequestBadge() {
         if(AddRequestManager.instance.hasUnreadRequests()){
-            iv_tips.visibility = View.VISIBLE
+            //iv_tips.visibility = View.VISIBLE
         }else{
-            iv_tips.visibility = View.GONE
+            //iv_tips.visibility = View.GONE
         }
     }
 

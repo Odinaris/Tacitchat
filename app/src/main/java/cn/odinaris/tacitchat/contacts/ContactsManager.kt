@@ -1,12 +1,12 @@
 package cn.odinaris.tacitchat.contacts
 
+import cn.odinaris.tacitchat.user.TacitUser
 import com.avos.avoscloud.AVException
 import com.avos.avoscloud.AVQuery
 import com.avos.avoscloud.FindCallback
 
 import java.util.ArrayList
 
-import cn.odinaris.tacitchat.user.TacitUser
 import cn.odinaris.tacitchat.utils.UserCacheUtils
 
 
@@ -35,12 +35,13 @@ object ContactsManager {
                 } else {
                     val userIds = list.map { it.objectId }
                     UserCacheUtils.fetchUsers(userIds, object : UserCacheUtils.CacheUserCallback() {
-                        override fun done(userList: List<TacitUser?>, e: Exception?) {
-                            if(e==null){
+
+                        override fun done(userList: List<TacitUser?>, e1: Exception?) {
+                            if(e1==null){
                                 setContactIds(userIds)
                                 findCallback.done(userList, null)
                             }else{
-                                e.printStackTrace()
+                                e1.printStackTrace()
                             }
                         }
                     })

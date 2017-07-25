@@ -1,13 +1,12 @@
 package cn.odinaris.tacitchat.utils
 
 import android.text.TextUtils
+import cn.odinaris.tacitchat.user.TacitUser
 
 import com.avos.avoscloud.AVException
 import com.avos.avoscloud.AVQuery
 import com.avos.avoscloud.FindCallback
 import java.util.HashMap
-
-import cn.odinaris.tacitchat.user.TacitUser
 
 /**
  * TODO 1、本地存储 2、避免内存、外存占用过多

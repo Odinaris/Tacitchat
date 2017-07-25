@@ -1,9 +1,8 @@
 package cn.odinaris.tacitchat.contacts
 
+import cn.odinaris.tacitchat.user.TacitUser
 import com.avos.avoscloud.AVClassName
 import com.avos.avoscloud.AVObject
-
-import cn.odinaris.tacitchat.user.TacitUser
 
 
 @AVClassName("AddRequest")

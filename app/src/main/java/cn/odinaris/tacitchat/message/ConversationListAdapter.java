@@ -4,12 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import cn.leancloud.chatkit.utils.LCIMLogUtils;
 import cn.odinaris.tacitchat.message.viewholder.BaseViewHolder;
-import cn.odinaris.tacitchat.message.viewholder.BaseViewHolder.ViewHolderCreator;
 import cn.odinaris.tacitchat.message.viewholder.ConversationItemHolder;
 
 public class ConversationListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {

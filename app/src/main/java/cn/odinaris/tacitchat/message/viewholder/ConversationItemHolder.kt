@@ -102,7 +102,6 @@ class ConversationItemHolder(root: ViewGroup) : BaseViewHolder<AVIMConversation>
                 } else {
                     this@ConversationItemHolder.nameView?.text = s
                 }
-
             }
         })
     }
@@ -114,7 +113,7 @@ class ConversationItemHolder(root: ViewGroup) : BaseViewHolder<AVIMConversation>
                     override fun internalDone0(s: String?, e: AVException?) {
                         if (null != e) { LCIMLogUtils.logException(e) }
                         if (!TextUtils.isEmpty(s)) {
-                            Picasso.with(this@ConversationItemHolder.context).load(s).placeholder(cn.leancloud.chatkit.R.drawable.lcim_default_avatar_icon).into(this@ConversationItemHolder.avatarView)
+                            Picasso.with(this@ConversationItemHolder.context).load(s).placeholder(R.drawable.ic_default_avatar).into(this@ConversationItemHolder.avatarView)
                         } else {
                             this@ConversationItemHolder.avatarView?.setImageResource(cn.leancloud.chatkit.R.drawable.lcim_default_avatar_icon)
                         }

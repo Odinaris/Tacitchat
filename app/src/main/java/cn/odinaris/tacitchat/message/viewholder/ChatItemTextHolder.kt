@@ -1,6 +1,8 @@
 package cn.odinaris.tacitchat.message.viewholder
 
 import android.content.Context
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -32,6 +34,15 @@ class ChatItemTextHolder(context: Context, root: ViewGroup, isLeft: Boolean) : C
     override fun bindData(t: Any?) {
         super.bindData(t)
         val message = t as AVIMMessage
-        if (message is AVIMTextMessage) { contentView!!.text = message.text }
+        if (message is AVIMTextMessage) {
+            // Todo 解密信息
+            if(isLeft){
+                Log.e("isLeft", String(Base64.decode( message.text, Base64.DEFAULT)))
+                contentView!!.text = String(Base64.decode( message.text, Base64.DEFAULT))
+            }else{
+                Log.e("notLeft", String(Base64.decode( message.text, Base64.DEFAULT)))
+                contentView!!.text = String(Base64.decode( message.text, Base64.DEFAULT))
+            }
+        }
     }
 }

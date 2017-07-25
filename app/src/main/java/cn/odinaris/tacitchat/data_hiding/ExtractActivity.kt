@@ -34,7 +34,6 @@ class ExtractActivity : AppCompatActivity() {
         btn_extract.setOnClickListener {
             if(!et_key.text.toString().isEmpty()){
                 val width = stego!!.width
-                val height = stego!!.height
                 val sb = StringBuilder()
                 for(i in 0..15){
                     if(Color.red(stego!!.getPixel(i,0)) % 2 == 0){
@@ -54,13 +53,26 @@ class ExtractActivity : AppCompatActivity() {
                                     secretInfo.append('0')
                                 } else secretInfo.append('1') }
                 }
-                val restBitsLength = size+16 - rows * width
-                if(restBitsLength != 0){
-                    (0..restBitsLength-1)
-                            .forEach {
-                                if(Color.red(stego!!.getPixel(it,rows)) % 2 == 0) {
-                                    secretInfo.append('0')
-                                } else secretInfo.append('1') }
+                var restBitsLength :Int = 0
+                if(rows == 0){
+                    restBitsLength = size  - rows * width
+                }else{
+                    restBitsLength = size + 16 - rows * width
+                }
+                if(restBitsLength > 0){
+                    if(rows > 0){
+                        (0..restBitsLength-1)
+                                .forEach {
+                                    if(Color.red(stego!!.getPixel(it,rows)) % 2 == 0) {
+                                        secretInfo.append('0')
+                                    } else secretInfo.append('1') }
+                    }else{
+                        (16..restBitsLength+15)
+                                .forEach {
+                                    if(Color.red(stego!!.getPixel(it,rows)) % 2 == 0) {
+                                        secretInfo.append('0')
+                                    } else secretInfo.append('1') }
+                    }
                 }
                 val message = CodeUtils.BinStr2Str(secretInfo.toString())
                 Toast.makeText(applicationContext,"秘密信息为:"+message,Toast.LENGTH_SHORT).show()

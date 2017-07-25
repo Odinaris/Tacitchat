@@ -33,7 +33,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
   private final int ITEM_UNKNOWN = 300;
   private static final long TIME_INTERVAL = 180000L;
   private boolean isShowUserName = true;
-  protected List<AVIMMessage> messageList = new ArrayList();
+  private List<AVIMMessage> messageList = new ArrayList<>();
 
   public ChatListAdapter() {
   }
@@ -43,7 +43,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     if(null != messages) {
       this.messageList.addAll(messages);
     }
-
   }
 
   public void addMessageList(List<AVIMMessage> messages) {

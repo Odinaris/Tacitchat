@@ -48,8 +48,13 @@ class TacitInputBar : LinearLayout {
         this.tib_send.setOnClickListener{
             val content = this.tib_input.text.toString()
             if(!content.isEmpty()){
-                this.tib_input.setText("")
-                EventBus.getDefault().post(TacitInputBarTextEvent(3, content, this@TacitInputBar.tag))
+                if(ll_placeholder.visibility == View.VISIBLE){
+                    this.tib_input.setText("")
+                    EventBus.getDefault().post(TacitInputBarTextEvent(3, content, this@TacitInputBar.tag))
+                }else{
+                    // 如果已选择载体图像，则嵌入数据
+                    EventBus.getDefault().post(EmbedEvent())
+                }
             }
             else{ toast("输入信息!") }
         }
@@ -73,8 +78,6 @@ class TacitInputBar : LinearLayout {
         this.tib_embed.setOnClickListener { EventBus.getDefault().post(TacitInputBarEvent(6, this@TacitInputBar.tag)) }
         //点击后隐藏
         this.ll_placeholder.setOnClickListener { EventBus.getDefault().post(SelectImageEvent()) }
-        this.btn_send.setOnClickListener { EventBus.getDefault().post(EmbedEvent()) }
-
     }
 
     private fun setEditTextChangeListener() {

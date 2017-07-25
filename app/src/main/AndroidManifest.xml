@@ -66,6 +66,9 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".data_hiding.EmbedActivity" />
         <activity android:name=".data_hiding.ExtractActivity" />
+        <activity
+            android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen"
+            android:name=".message.ImageActivity" />
     </application>
 
 </manifest>

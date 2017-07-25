@@ -51,6 +51,7 @@ class ChatActivity : AppCompatActivity() {
             val extras = intent.extras
             if (null != extras) {
                 if (extras.containsKey(LCIMConstants.PEER_ID)) {
+                    // Todo 优化对话界面Title设计
                     tb_conversation_username.title = extras.getString("username")
                     this.getConversation(extras.getString(LCIMConstants.PEER_ID))
                 } else if (extras.containsKey(LCIMConstants.CONVERSATION_ID)) {

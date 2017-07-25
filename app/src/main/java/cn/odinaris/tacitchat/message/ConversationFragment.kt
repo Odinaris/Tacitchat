@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cn.leancloud.chatkit.LCChatKit
+import cn.leancloud.chatkit.cache.LCIMConversationItemCache
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.cache.ConversationItemCache
 import cn.odinaris.tacitchat.event.ConversationItemLongClickEvent
@@ -58,8 +59,11 @@ class ConversationFragment : Fragment() {
         //if (null != event.conversation) { }
     }
 
+    // 刷新对话列表
     private fun updateConversationList() {
-        val convIdList = ConversationItemCache.instance.sortedConversationList
+        // Todo 改为ConversationItemCache 时获取不到对话列表
+        // Todo 可能是因为缓存的原因，正式测试之前可以清除缓存重新测试
+        val convIdList = LCIMConversationItemCache.getInstance().sortedConversationList
         val conversationList = ArrayList<AVIMConversation>()
         val var3 = convIdList.iterator()
         while (var3.hasNext()) { conversationList.add(LCChatKit.getInstance().client.getConversation(var3.next())) }

@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 
 import com.avos.avoscloud.im.v2.AVIMMessage
 import com.avos.avoscloud.im.v2.messages.AVIMImageMessage
@@ -15,35 +14,37 @@ import com.squareup.picasso.Picasso
 
 import java.io.File
 
-import cn.leancloud.chatkit.activity.LCIMImageActivity
-import cn.leancloud.chatkit.R
 import cn.leancloud.chatkit.utils.LCIMConstants
+import cn.odinaris.tacitchat.R
+import cn.odinaris.tacitchat.message.ImageActivity
+import cn.odinaris.tacitchat.view.BubbleImageView
 
 /**
  * 聊天页面中的图片 item 对应的 holder
  */
 class ChatItemImageHolder(context: Context, root: ViewGroup, isLeft: Boolean) : ChatItemHolder(context, root, isLeft) {
 
-    var contentView: ImageView? = null
+    var contentView: BubbleImageView? = null
 
     override fun initView() {
         super.initView()
-        conventLayout?.addView(View.inflate(context, R.layout.lcim_chat_item_image_layout, null))
-        contentView = itemView.findViewById(R.id.chat_item_image_view) as ImageView
         if (isLeft) {
-            contentView?.setBackgroundResource(R.drawable.lcim_chat_item_left_bg)
+            conventLayout?.addView(View.inflate(context, R.layout.item_chat_left_image,null))
+            contentView = itemView.findViewById(R.id.biv_chat_image) as BubbleImageView
         } else {
-            contentView?.setBackgroundResource(R.drawable.lcim_chat_item_right_bg)
+            conventLayout?.addView(View.inflate(context, R.layout.item_chat_right_image,null))
+            contentView = itemView.findViewById(R.id.biv_chat_image) as BubbleImageView
         }
 
         contentView?.setOnClickListener {
             try {
-                val intent = Intent(context, LCIMImageActivity::class.java)
+                val intent = Intent(context, ImageActivity::class.java)
+                //val intent = Intent(context, LCIMImageActivity::class.java)
                 intent.`package` = context.packageName
                 intent.putExtra(LCIMConstants.IMAGE_LOCAL_PATH, (message as AVIMImageMessage).localFilePath)
                 intent.putExtra(LCIMConstants.IMAGE_URL, (message as AVIMImageMessage).fileUrl)
                 context.startActivity(intent)
-            } catch (exception: ActivityNotFoundException) {
+            } catch (exception: Throwable) {
                 Log.i(LCIMConstants.LCIM_LOG_TAG, exception.toString())
             }
         }
@@ -51,7 +52,7 @@ class ChatItemImageHolder(context: Context, root: ViewGroup, isLeft: Boolean) : 
 
     override fun bindData(t: Any?) {
         super.bindData(t)
-        contentView?.setImageResource(0)
+        //contentView?.setImageResource(0)
         val message = t as AVIMMessage
         if (message is AVIMImageMessage) {
             val imageMsg = message

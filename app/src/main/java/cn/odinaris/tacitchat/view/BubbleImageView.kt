@@ -156,9 +156,9 @@ class BubbleImageView : android.support.v7.widget.AppCompatImageView {
     }
 
     private fun getDrawable(res: Int): Drawable {
-        if (res == 0) {
-            throw IllegalArgumentException("getDrawable res can not be zero")
-        }
+//        if (res == 0) {
+//            throw IllegalArgumentException("getDrawable res can not be zero")
+//        }
         return context.resources.getDrawable(res)
     }
 

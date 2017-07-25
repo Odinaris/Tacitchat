@@ -41,9 +41,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabUnselected(position: Int) { }
 
-            override fun onTabSelected(position: Int) {
-                vp_container.currentItem = position
-            }
+            override fun onTabSelected(position: Int) { vp_container.currentItem = position }
         })
     }
 
