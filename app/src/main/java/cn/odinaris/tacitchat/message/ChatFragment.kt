@@ -59,7 +59,6 @@ class ChatFragment : Fragment() {
     var inputBar: TacitInputBar? = null
     var refreshLayout: SwipeRefreshLayout? = null
     var localCameraPath: String? = null
-    val RESULT_PICK_GALLERY = 1     //选择相册图片
     val RESULT_PICK_CAMERA = 2      //打开相机进行拍照
     val RESULT_PICK_IMAGE = 3       //选择本地图片(相册/拍照)
     val RESULT_EMBED_IMAGE = 4      //嵌入信息
@@ -183,9 +182,9 @@ class ChatFragment : Fragment() {
         if (null != this.imConversation && null != event && this.imConversation!!.conversationId == event.tag) {
             when (event.eventAction) {
                 0 -> this.dispatchPickPictureIntent()
+                2 -> toast("发送语音功能正在开发中~")
                 1 -> this.dispatchTakePictureIntent()
                 4 -> this.sendFile()                    //发送文件
-                5 -> this.fireMessage()                 //阅后即焚
                 6 -> {
                     if(ll_embed.visibility == GONE){
                         // 如果嵌入布局隐藏，则点击嵌入进入选择图像界面
@@ -210,23 +209,7 @@ class ChatFragment : Fragment() {
         iv_select.visibility = View.GONE
     }
 
-    fun onEvent(event: SelectImageEvent?){
-        if(null != event){
-//            val intent = Intent()
-//            intent.type = "image/*"
-//            intent.action = Intent.ACTION_GET_CONTENT
-//            startActivityForResult(intent, RESULT_PICK_IMAGE)
-            toast("黑人问号脸")
-        }
-    }
-
-    fun onEvent(event: EmbedEvent?){
-        if(null != event ){ EmbedAsyncTask().execute() }
-    }
-
-    //切换嵌入布局的显示隐藏
-    // Todo 嵌入布局显示隐藏增加过渡效果
-    private fun toggleEmbedLayout() { ll_embed.visibility = if(ll_embed.visibility == VISIBLE) GONE else VISIBLE }
+    fun onEvent(event: EmbedEvent?){ if(null != event ){ EmbedAsyncTask().execute() } }
 
     //发送语音
     fun onEvent(recordEvent: TacitInputBarRecordEvent?) {
@@ -237,13 +220,6 @@ class ChatFragment : Fragment() {
         }
     }
 
-    //选择本地图片
-    private fun dispatchGetPictureIntent() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, RESULT_PICK_IMAGE)
-    }
 
     // Todo 点击文件按钮，跳转到文件列表，列出常用文件类型，文件名，文件大小，选择之后跳转回来发送，若已选择载体文件，则嵌入文件到图像
     private fun sendFile() {
@@ -355,6 +331,9 @@ class ChatFragment : Fragment() {
                         val docPaths = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
                         this.sendImage(docPaths[0])
                     }
+                    RESULT_PICK_IMAGE -> {
+                        showCoverImage(data.data)
+                    }
                 }
             }
         }
@@ -372,7 +351,6 @@ class ChatFragment : Fragment() {
         options.inPreferredConfig = Bitmap.Config.ARGB_8888
         cover = BitmapFactory.decodeFile(file.absolutePath,options)
         coverPath = file.parent
-        ll_placeholder.visibility = View.GONE
         iv_select.setImageBitmap(cover)
         iv_select.visibility = View.VISIBLE
         ll_embed.visibility = VISIBLE
@@ -467,6 +445,7 @@ class ChatFragment : Fragment() {
             activity.sendBroadcast(intent)//通知图库更新
             //Toast.makeText(context,"信息嵌入完成!已成功发送!",Toast.LENGTH_SHORT).show()
             initEmbedLayout()
+            tib_input.setText("")
             sendImage(file.absolutePath)
         }
         override fun onPreExecute() {  }

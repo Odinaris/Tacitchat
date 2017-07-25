@@ -22,7 +22,7 @@ import cn.leancloud.chatkit.utils.LCIMConversationUtils
 import cn.leancloud.chatkit.utils.LCIMLogUtils
 import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.utils.ConversationUtils
-import kotlinx.android.synthetic.main.act_conversation.*
+import kotlinx.android.synthetic.main.act_chat.*
 
 class ChatActivity : AppCompatActivity() {
     val QUIT_GROUP_REQUEST = 200
@@ -31,7 +31,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.setContentView(R.layout.act_conversation)
+        this.setContentView(R.layout.act_chat)
         this.chatFragment = this.supportFragmentManager.findFragmentById(R.id.frag_conversation) as ChatFragment
         this.initByIntent(this.intent)
     }

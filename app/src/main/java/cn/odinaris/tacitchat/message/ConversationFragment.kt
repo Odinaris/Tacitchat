@@ -33,6 +33,7 @@ class ConversationFragment : Fragment() {
         rv_conversation_list.layoutManager = LinearLayoutManager(activity)
         rv_conversation_list.adapter = itemAdapter
         EventBus.getDefault().register(this)
+        srl_conversation.setOnRefreshListener{ updateConversationList() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -69,6 +70,7 @@ class ConversationFragment : Fragment() {
         while (var3.hasNext()) { conversationList.add(LCChatKit.getInstance().client.getConversation(var3.next())) }
         this.itemAdapter.dataList = conversationList
         this.itemAdapter.notifyDataSetChanged()
+        srl_conversation.isRefreshing = false
     }
 
     fun onEvent(updateEvent: OfflineMessageCountChangeEvent) { this.updateConversationList() }

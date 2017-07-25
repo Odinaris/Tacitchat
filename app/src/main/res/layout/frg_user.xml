@@ -6,9 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
-    <include
-        android:id="@+id/tb_user"
-        layout="@layout/item_title"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90sp"

@@ -57,11 +57,11 @@
             android:src="@drawable/ic_input_image"
             android:scaleType="centerInside"/>
         <ImageView
-            android:id="@+id/tib_camera"
+            android:id="@+id/tib_audio"
             android:layout_width="0sp"
             android:layout_height="30sp"
             android:layout_weight="1"
-            android:src="@drawable/ic_input_camera"
+            android:src="@drawable/ic_input_audio"
             android:scaleType="centerInside"/>
         <ImageView
             android:id="@+id/tib_file"
@@ -70,13 +70,6 @@
             android:layout_weight="1"
             android:src="@drawable/ic_input_file"
             android:scaleType="centerInside"/>
-        <!--<ImageView-->
-            <!--android:id="@+id/tib_fire"-->
-            <!--android:layout_width="0sp"-->
-            <!--android:layout_height="40sp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:src="@drawable/color_fire"-->
-            <!--android:scaleType="centerInside" />-->
         <ImageView
             android:id="@+id/tib_embed"
             android:layout_width="0sp"

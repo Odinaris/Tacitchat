@@ -51,7 +51,7 @@
         </activity>
         //应用主页面
         <activity android:name=".main.MainActivity"
-            android:theme="@style/TacitNoActionBar"
+            android:theme="@style/TacitTheme"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".login.LoginActivity" />

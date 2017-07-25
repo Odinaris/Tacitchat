@@ -51,7 +51,7 @@ class ContactsFragment : Fragment() {
                 context.startActivity(intent)
             }
             override fun onItemLongClick(view: View, position: Int) {
-                AlertDialog.Builder(context).setMessage("确认删除联系人?")
+                AlertDialog.Builder(activity).setMessage("确认删除联系人?")
                         .setPositiveButton("确定", { _, _ ->
                             val dialog1 = showSpinnerDialog(activity)
                             TacitUser.getCurrentUser().removeFriend(contacts[position].objectId, object : SaveCallback() {

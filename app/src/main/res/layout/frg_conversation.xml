@@ -4,21 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60sp"
-        android:orientation="vertical"
-        android:background="@color/darkBlack">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp"
-            android:text="搜索聊天记录"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:background="@drawable/bg_searchbox"
-            android:gravity="center_vertical"/>
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60sp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:background="@color/darkBlack">-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="10sp"-->
+            <!--android:text="搜索聊天记录"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="14sp"-->
+            <!--android:background="@drawable/bg_searchbox"-->
+            <!--android:gravity="center_vertical"/>-->
+    <!--</LinearLayout>-->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_conversation"
         android:layout_width="match_parent"
