@@ -26,7 +26,7 @@
             android:layout_width="60sp"
             android:layout_height="40sp"
             android:text="发送"
-            android:backgroundTint="@color/darkBlack"/>
+            android:background="@color/darkBlack" />
         <!--<ImageView-->
             <!--android:id="@+id/tib_send"-->
             <!--android:layout_width="40sp"-->

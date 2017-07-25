@@ -77,6 +77,7 @@ class TacitInputBar : LinearLayout {
         this.ll_placeholder.setOnClickListener { EventBus.getDefault().post(SelectImageEvent()) }
     }
 
+    // 设置输入栏状态
     private fun setEditTextChangeListener() {
         this.tib_input.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {}

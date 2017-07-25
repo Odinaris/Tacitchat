@@ -1,17 +1,12 @@
 package cn.odinaris.tacitchat.message
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -48,16 +43,7 @@ import cn.odinaris.tacitchat.R
 import cn.odinaris.tacitchat.event.*
 import cn.odinaris.tacitchat.utils.CodeUtils
 import cn.odinaris.tacitchat.utils.ImageUtils
-import cn.odinaris.tacitchat.utils.PathUtils
 import cn.odinaris.tacitchat.view.TacitInputBar
-import com.leon.lfilepickerlibrary.LFilePicker
-import com.leon.lfilepickerlibrary.filter.LFileFilter
-import com.vincent.filepicker.Constant
-import com.vincent.filepicker.activity.NormalFilePickActivity
-import com.zhihu.matisse.Matisse
-import com.zhihu.matisse.MimeType
-import com.zhihu.matisse.engine.impl.GlideEngine
-import com.zhihu.matisse.filter.Filter
 import de.greenrobot.event.EventBus
 import droidninja.filepicker.FilePickerBuilder
 import droidninja.filepicker.FilePickerConst
@@ -230,14 +216,7 @@ class ChatFragment : Fragment() {
 //            intent.type = "image/*"
 //            intent.action = Intent.ACTION_GET_CONTENT
 //            startActivityForResult(intent, RESULT_PICK_IMAGE)
-            Matisse.from(this)
-                    .choose(MimeType.allOf())
-                    .countable(true)
-                    .maxSelectable(1)
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .thumbnailScale(0.85f)
-                    .imageEngine(GlideEngine()).theme(R.style.Matisse_Dracula)
-                    .forResult(RESULT_PICK_IMAGE)
+            toast("黑人问号脸")
         }
     }
 
@@ -266,8 +245,8 @@ class ChatFragment : Fragment() {
         startActivityForResult(intent, RESULT_PICK_IMAGE)
     }
 
+    // Todo 点击文件按钮，跳转到文件列表，列出常用文件类型，文件名，文件大小，选择之后跳转回来发送，若已选择载体文件，则嵌入文件到图像
     private fun sendFile() {
-        // Todo 点击文件按钮，跳转到文件列表，列出常用文件类型，文件名，文件大小，选择之后跳转回来发送，若已选择载体文件，则嵌入文件到图像
         val doc = arrayOf("doc", "docx")
         val xls = arrayOf("xlsx", "xls")
         val ppt = arrayOf("ppt", "pptx")
@@ -300,40 +279,17 @@ class ChatFragment : Fragment() {
 
     //跳转相册
     private fun dispatchPickPictureIntent() {
-        Matisse.from(this)
-        .choose(MimeType.allOf())
-        .countable(true)
-        .maxSelectable(1)
-        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-        .thumbnailScale(0.85f)
-        .imageEngine(GlideEngine()).theme(R.style.Matisse_Dracula)
-        .forResult(RESULT_PICK_GALLERY)
+        val photo = arrayOf("jpg", "jpeg", "png", "bmp")
+        FilePickerBuilder.getInstance().setMaxCount(1)
+                .addFileSupport("photo", photo, R.drawable.filetype_doc)
+                .setActivityTheme(R.style.TacitNoActionBar)
+                .enableImagePicker(true)
+                .enableCameraSupport(true)
+                .pickPhoto(this)
     }
 
     private fun scrollToBottom() {
         this.layoutManager?.scrollToPositionWithOffset(this.itemAdapter?.itemCount!! - 1, 0)
-    }
-
-    private fun getRealPathFromURI(context: Context, contentUri: Uri): String {
-        if (contentUri.scheme == "file") { return contentUri.encodedPath }
-        else {
-            var cursor: Cursor? = null
-            val var5: String
-            try {
-                val proj = arrayOf("_data")
-                cursor = context.contentResolver.query(contentUri, proj, null as String?, null as Array<String>?, null as String?)
-                if (null != cursor) {
-                    val column_index = cursor.getColumnIndexOrThrow("_data")
-                    cursor.moveToFirst()
-                    val var6 = cursor.getString(column_index)
-                    return var6
-                }
-                var5 = ""
-            } finally {
-                if (cursor != null) { cursor.close() }
-            }
-            return var5
-        }
     }
 
     private fun sendText(content: String) {
@@ -342,13 +298,10 @@ class ChatFragment : Fragment() {
         this.sendMessage(message)
     }
 
+    //Todo 输入选择的图片Url，生成加密后的图片Url并发送
     private fun sendImage(imagePath: String?) {
-        try {
-            //Todo 输入选择的图片Url，生成加密后的图片Url并发送
-            this.sendMessage(AVIMImageMessage(imagePath!!))
-        } catch (var3: IOException) {
-            LCIMLogUtils.logException(var3)
-        }
+        try { this.sendMessage(AVIMImageMessage(imagePath!!)) }
+        catch (var3: IOException) { LCIMLogUtils.logException(var3) }
     }
 
     private fun sendAudio(audioPath: String) {
@@ -395,29 +348,13 @@ class ChatFragment : Fragment() {
         if (-1 == resultCode) {
             if(data != null){
                 when (requestCode) {
-                    RESULT_PICK_GALLERY -> {
-                        toast(Matisse.obtainResult(data)[0].toString())
-                        Log.e("Matisse - imagePath",Matisse.obtainResult(data)[0].toString())
-                        this.sendImage(this.getRealPathFromURI(this.activity, Matisse.obtainResult(data)[0]))
-                    }
-                    RESULT_PICK_IMAGE -> {
-                        this.showCoverImage(Matisse.obtainResult(data)[0])
-                        //嵌入文本信息时
-                        //startImageCrop(uri, 200, 200, CROP_REQUEST)
-                    }
-                    RESULT_PICK_FILE -> {
-                        val list = data.getStringArrayListExtra("paths")
-                        toast("选中了"+list.size + "个文件")
-                    }
                     FilePickerConst.REQUEST_CODE_DOC -> {
                         val docPaths = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS)
-                        toast("选中了"+docPaths.size + "个文件")
                     }
-                }
-            }else{
-                if (requestCode == RESULT_PICK_CAMERA){
-                    toast(this.localCameraPath!!)
-                    this.sendImage(this.localCameraPath+".png")
+                    FilePickerConst.REQUEST_CODE_PHOTO -> {
+                        val docPaths = data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA)
+                        this.sendImage(docPaths[0])
+                    }
                 }
             }
         }

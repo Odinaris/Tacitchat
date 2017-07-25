@@ -3,6 +3,7 @@ package cn.odinaris.tacitchat.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -66,5 +67,28 @@ object ImageUtils{
         intent.putExtra("noFaceDetection", false) // face detection
         fragment.startActivityForResult(intent, requestCode)
         return outputUri
+    }
+
+    // 根据文件URI转换成真实路径
+    fun getRealPathFromURI(context: Context, contentUri: Uri): String {
+        if (contentUri.scheme == "file") { return contentUri.encodedPath }
+        else {
+            var cursor: Cursor? = null
+            val var5: String
+            try {
+                val proj = arrayOf("_data")
+                cursor = context.contentResolver.query(contentUri, proj, null as String?, null as Array<String>?, null as String?)
+                if (null != cursor) {
+                    val column_index = cursor.getColumnIndexOrThrow("_data")
+                    cursor.moveToFirst()
+                    val var6 = cursor.getString(column_index)
+                    return var6
+                }
+                var5 = ""
+            } finally {
+                if (cursor != null) { cursor.close() }
+            }
+            return var5
+        }
     }
 }
